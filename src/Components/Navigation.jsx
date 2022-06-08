@@ -11,8 +11,6 @@ function Navigation() {
 
   const { userDetails } = useSelector((store) => store.auth);
 
-  console.log(userDetails);
-
   return (
     <div className="bg-secondaryDark shadow-2xl">
       <nav className="flex justify-between items-center">
