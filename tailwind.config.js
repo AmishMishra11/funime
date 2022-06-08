@@ -1,6 +1,17 @@
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      sm: "400px",
+
+      md: "547px",
+
+      lg: "768px",
+
+      xl: "1024px",
+
+      xxl: "1680px",
+    },
     extend: {
       colors: {
         primaryLight: "#D8B4FE",
