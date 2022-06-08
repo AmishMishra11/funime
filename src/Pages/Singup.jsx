@@ -38,18 +38,7 @@ function Singup() {
 
       <div className="flex justify-center items-center  bg-fixed  w-full h-full  bg-[url('https://res.cloudinary.com/amish11/image/upload/v1654621786/social%20media/mobile-wallpaper_pfk8rt.jpg')] lg:bg-none ">
         <div className=" flex-row justify-center content-center w-4/5 md:w-3/5 lg:w-80 p-5 m-2  bg-secondaryDark border-2 rounded-lg border-primaryDark shadow-xl ">
-          <h1
-            className="text-primaryDark text-3xl font-semibold text-center mb-10"
-            onClick={() =>
-              console.log(
-                "hi",
-                tempFullName,
-                tempUserName,
-                tempEmail,
-                tempPassword
-              )
-            }
-          >
+          <h1 className="text-primaryDark text-3xl font-semibold text-center mb-10">
             Sign Up
           </h1>
 
