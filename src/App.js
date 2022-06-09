@@ -6,6 +6,7 @@ import Singup from "./Pages/Singup";
 import Home from "./Pages/Home";
 
 import { Bookmarks, Explore, Feed, Profile, Search } from "./Components";
+import RequiresAuth from "./RequiresAuth";
 
 function App() {
   return (
@@ -14,13 +15,14 @@ function App() {
         <Route exact={true} path="/" element={<Login />} />
         <Route path="signup" element={<Singup />} />
 
-        <Route path="home" element={<Home />}>
-          <Route index element={<Feed />} />
-          <Route path="feed" element={<Feed />} />
-          <Route path="search" element={<Search />} />
-          <Route path="explore" element={<Explore />} />
-          <Route path="bookmarks" element={<Bookmarks />} />
-          <Route path="profile" element={<Profile />} />
+        <Route element={<RequiresAuth />}>
+          <Route path="home" element={<Home />}>
+            <Route index element={<Feed />} />
+            <Route path="search" element={<Search />} />
+            <Route path="explore" element={<Explore />} />
+            <Route path="bookmarks" element={<Bookmarks />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
         </Route>
       </Routes>
     </div>

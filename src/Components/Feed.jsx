@@ -1,7 +1,26 @@
 import React from "react";
 
+import { PopularUsers } from "./PopularUsers";
+import { AddPost } from "./AddPost";
+import { Post } from "./Post";
+
 function Feed() {
-  return <div>Feed</div>;
+  return (
+    <div className="flex justify-between bg-secondaryLight ">
+      <div className="  w-full  mx-8 my-6  md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide">
+        <div>
+          <AddPost />
+          <main>
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+          </main>
+        </div>
+      </div>
+      <PopularUsers />
+    </div>
+  );
 }
 
 export { Feed };

@@ -17,11 +17,11 @@ module.exports = {
         primaryLight: "#D8B4FE",
         primaryDark: "#9333EA",
         secondaryLight: "#FFFFFF",
-        secondaryDark: "#F8FAFC",
+        secondaryDark: "#F1F5F9",
         darkLight: "#1E293B",
         darkDark: "#0F172A",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

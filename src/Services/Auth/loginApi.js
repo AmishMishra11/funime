@@ -16,8 +16,10 @@ export const loginUser = async (
     });
 
     localStorage.setItem("token", res.data.encodedToken);
+    localStorage.setItem("currentUser", res.data.foundUser.username);
+
     dispathcAuth(userLogin(res.data));
-    navigate("/home/feed");
+    navigate("/home");
   } catch (e) {
     console.log("error occured: ", e);
   }
