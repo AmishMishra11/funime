@@ -31,13 +31,13 @@ function Singup() {
   return (
     <div className="flex lg:justify-between items-center w-screen h-screen ">
       <img
-        className="hidden lg:block h-screen w-7/12 xl:w-8/12"
+        className="hidden lg:block h-screen w-2/4 xl:w-7/12"
         src={wallpaper}
         alt="wallpaper"
       />
 
       <div className="flex justify-center items-center  bg-fixed  w-full h-full  bg-[url('https://res.cloudinary.com/amish11/image/upload/v1654621786/social%20media/mobile-wallpaper_pfk8rt.jpg')] lg:bg-none ">
-        <div className=" flex-row justify-center content-center w-4/5 md:w-3/5 lg:w-80 p-5 m-2  bg-secondaryDark border-2 rounded-lg border-primaryDark shadow-xl ">
+        <div className=" flex-row justify-center content-center w-80 xl:w-96 p-5 m-2  bg-secondaryDark border-2 rounded-lg border-primaryDark shadow-xl ">
           <h1 className="text-primaryDark text-3xl font-semibold text-center mb-10">
             Sign Up
           </h1>
@@ -117,7 +117,7 @@ function Singup() {
 
           <div className="p-1 text-center ">
             <Link className="hover:border-b-2 border-primaryDark" to="/">
-              Already have an Account{" "}
+              Already have an Account
               <i className="fa-solid fa-angle-right"></i>
             </Link>
           </div>
