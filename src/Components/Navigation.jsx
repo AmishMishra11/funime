@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux/es/exports";
 
 import Logo from "../assets/funime-logo.png";
 import { userLogout } from "../Redux/Features/authSlice";
@@ -9,7 +9,14 @@ function Navigation() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const showUserName = localStorage.getItem("currentUser");
+  const { currentUserDetails } = useSelector((store) => store.users);
+
+  const handleLogout = () => {
+    dispatch(userLogout);
+    localStorage.removeItem("token");
+    localStorage.removeItem("userDetails");
+    navigate("/");
+  };
 
   return (
     <div className=" shadow-2xl sticky top-0 z-50 bg-primaryDark">
@@ -26,14 +33,10 @@ function Navigation() {
         </div>
         <div
           className="flex px-5 py-2 sm:px-10 sm:py-5  items-center cursor-pointer text-secondaryLight"
-          onClick={() => {
-            dispatch(userLogout);
-            localStorage.removeItem("token");
-            navigate("/");
-          }}
+          onClick={() => handleLogout()}
         >
           <h1 className="px-3 text-md sm:text-2xl font-medium ">
-            {showUserName}
+            {currentUserDetails?.username}
           </h1>
           <span>
             <i className="fas sm:fa-xl fa-sign-out"></i>

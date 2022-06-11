@@ -16,7 +16,8 @@ export const loginUser = async (
     });
 
     localStorage.setItem("token", res.data.encodedToken);
-    localStorage.setItem("currentUser", res.data.foundUser.username);
+
+    localStorage.setItem("userDetails", JSON.stringify(res.data.foundUser));
 
     dispathcAuth(userLogin(res.data));
     navigate("/home");

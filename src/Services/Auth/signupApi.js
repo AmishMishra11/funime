@@ -23,7 +23,8 @@ export const signinUser = async (
     });
 
     localStorage.setItem("token", res.data.encodedToken);
-    localStorage.setItem("currentUser", res.data.createdUser.username);
+
+    localStorage.setItem("userDetails", JSON.stringify(res.data.createdUser));
 
     dispathcAuth(userLogin(res.data));
     navigate("/home");
