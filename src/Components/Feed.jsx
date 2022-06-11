@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PopularUsers } from "./PopularUsers";
+import { AsideFeed } from "./AsideFeed";
 import { AddPost } from "./AddPost";
 import { Post } from "./Post";
 
@@ -18,7 +18,7 @@ function Feed() {
           </main>
         </div>
       </div>
-      <PopularUsers />
+      <AsideFeed />
     </div>
   );
 }

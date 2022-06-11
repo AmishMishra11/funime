@@ -84,7 +84,7 @@ function Login() {
             onClick={() =>
               setTempUserDetail({
                 tempUserName: "GuestU",
-                tempPassword: "UserGuest",
+                tempPassword: "Guest@123",
               })
             }
           >
