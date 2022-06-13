@@ -102,4 +102,32 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
   },
+  {
+    _id: "8",
+    fullName: "Naruto Uzumaki",
+    username: "Hokage",
+    email: "naruto@gmail.com",
+    password: "Naruto@123",
+    profileImg:
+      "https://res.cloudinary.com/amish11/image/upload/v1655123320/social%20media/naruto_gj7vua.webp",
+    profileBackgroundImg: "",
+    about: "",
+    portfolio: "",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
+  {
+    _id: "9",
+    fullName: "Tanjiro Kamado",
+    username: "Tanjiro",
+    email: "tanjiro@gmail.com",
+    password: "Tanjiro@123",
+    profileImg:
+      "https://res.cloudinary.com/amish11/image/upload/v1655123320/social%20media/tanjiro_k5e5gm.jpg",
+    profileBackgroundImg: "",
+    about: "Demon Slayer",
+    portfolio: "",
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+  },
 ];

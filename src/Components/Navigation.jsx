@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux/es/exports";
 
 import Logo from "../assets/funime-logo.png";
 import { userLogout } from "../Redux/Features/authSlice";
+import { removeAllPostFromUserFeed } from "../Redux/Features/postSlice";
 
 function Navigation() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ function Navigation() {
     dispatch(userLogout);
     localStorage.removeItem("token");
     localStorage.removeItem("userDetails");
+    dispatch(removeAllPostFromUserFeed());
     navigate("/");
   };
 

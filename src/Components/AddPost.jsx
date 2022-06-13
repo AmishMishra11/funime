@@ -1,13 +1,22 @@
 import React from "react";
 
+import { useSelector } from "react-redux/es/exports";
+
 function AddPost() {
+  const { currentUserDetails } = useSelector((store) => store.users);
+
   return (
     <div className="border-b-2 border-primaryDark ">
-      <div className="flex m-5 w-full  ">
-        <div className=" rounded-full w-12 h-12 bg-pink-300 cursor-pointer mr-2"></div>
-        <div className="w-full pr-10 ">
+      <div className="flex p-5 w-full gap-2  ">
+        <img
+          src={currentUserDetails?.profileImg}
+          alt="UserProfileImg"
+          className=" rounded-full   min-w-[3rem] w-12 h-12 md:min-w-[4rem] md:w-16 md:h-16 bg-pink-300 cursor-pointer "
+        />
+
+        <div className="w-full  ">
           <textarea
-            className="w-full h-24 p-2"
+            className="w-full h-24 p-2 rounded-lg"
             name="newPost"
             placeholder="What's on your mind?"
           ></textarea>
