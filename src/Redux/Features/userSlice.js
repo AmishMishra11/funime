@@ -10,7 +10,9 @@ const initialState = {
   allUsers: [],
   userStatus: "idle",
   error: null,
-  currentUserDetails: {},
+  currentUserDetails: localStorage.getItem("userDetails")
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : {},
   followStatus: "idle",
 };
 
@@ -30,6 +32,10 @@ export const userSlice = createSlice({
   reducers: {
     setCurrentUserDetails: (state, action) => {
       state.currentUserDetails = action.payload;
+    },
+
+    removeCUrrentUserDetails: (state) => {
+      state.currentUserDetails = {};
     },
   },
 
@@ -63,6 +69,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setCurrentUserDetails } = userSlice.actions;
+export const { setCurrentUserDetails, removeCUrrentUserDetails } =
+  userSlice.actions;
 
 export default userSlice.reducer;

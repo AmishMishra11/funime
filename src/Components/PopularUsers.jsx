@@ -7,11 +7,15 @@ import {
   followCall,
   unfollowCall,
 } from "../Redux/Features/userSlice";
+import {
+  loadUserPostCall,
+  removePostFromUserFeed,
+} from "../Redux/Features/postSlice";
 
 function PopularUsers() {
   const navigate = useNavigate();
 
-  const diapatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { currentUserDetails, allUsers, userStatus } = useSelector(
     (store) => store.users
@@ -19,9 +23,9 @@ function PopularUsers() {
 
   useEffect(() => {
     if (userStatus === "idle") {
-      diapatch(loadUsersCall());
+      dispatch(loadUsersCall());
     }
-  }, [diapatch, userStatus, currentUserDetails]);
+  }, [dispatch, userStatus, currentUserDetails]);
 
   const currentUserId = currentUserDetails._id;
 
@@ -37,45 +41,49 @@ function PopularUsers() {
     <p>Loading</p>
   ) : (
     <>
-      {PopularUsers?.map(
-        ({ profileImg, username, fullName, _id, following }) => (
+      {PopularUsers?.map(({ profileImg, username, fullName, _id }) => (
+        <div
+          key={_id}
+          className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm "
+        >
           <div
-            key={_id}
-            className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm "
+            className="flex items-center justify-between cursor-pointer"
+            onClick={() => navigate("/home/profile")}
           >
-            <div
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => navigate("/home/profile")}
-            >
-              <img
-                className=" rounded-full w-12 h-12 bg-pink-300 cursor-pointer"
-                src={profileImg}
-                alt="Users Profile"
-              />
+            <img
+              className=" rounded-full w-12 h-12 bg-pink-300 cursor-pointer"
+              src={profileImg}
+              alt="Users Profile"
+            />
 
-              <div className="flex flex-col px-2">
-                <p className="font-medium">{username}</p>
-                <p className="text-sm">{fullName}</p>
-              </div>
+            <div className="flex flex-col px-2">
+              <p className="font-medium">{username}</p>
+              <p className="text-sm">{fullName}</p>
             </div>
-            {currentUserDetails.following.find((item) => item._id === _id) ? (
-              <button
-                className="py-1 bg-secondaryLight text-primaryDark  border-2 border-primaryDark rounded-md w-24"
-                onClick={() => diapatch(unfollowCall(_id))}
-              >
-                Following
-              </button>
-            ) : (
-              <button
-                className="py-1 bg-primaryDark text-secondaryLight border-2 border-primaryDark rounded-md w-24"
-                onClick={() => diapatch(followCall(_id))}
-              >
-                Follow
-              </button>
-            )}
           </div>
-        )
-      )}
+          {currentUserDetails?.following?.find((item) => item._id === _id) ? (
+            <button
+              className="py-1 bg-secondaryLight text-primaryDark  border-2 border-primaryDark rounded-md w-24"
+              onClick={() => {
+                dispatch(removePostFromUserFeed(_id));
+                dispatch(unfollowCall(_id));
+              }}
+            >
+              Following
+            </button>
+          ) : (
+            <button
+              className="py-1 bg-primaryDark text-secondaryLight border-2 border-primaryDark rounded-md w-24"
+              onClick={() => {
+                dispatch(loadUserPostCall(username));
+                dispatch(followCall(_id));
+              }}
+            >
+              Follow
+            </button>
+          )}
+        </div>
+      ))}
     </>
   );
 }

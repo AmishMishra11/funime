@@ -12,12 +12,13 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact={true} path="/" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="signup" element={<Singup />} />
 
         <Route element={<RequiresAuth />}>
           <Route path="home" element={<Home />}>
             <Route index element={<Feed />} />
+            <Route path="feed" element={<Feed />} />
             <Route path="search" element={<Search />} />
             <Route path="explore" element={<Explore />} />
             <Route path="bookmarks" element={<Bookmarks />} />

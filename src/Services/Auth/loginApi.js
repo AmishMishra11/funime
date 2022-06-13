@@ -1,11 +1,12 @@
 import axios from "axios";
 
 import { userLogin } from "../../Redux/Features/authSlice";
+import { setCurrentUserDetails } from "../../Redux/Features/userSlice";
 
 export const loginUser = async (
   tempUesrName,
   tempPassword,
-  dispathcAuth,
+  dispatch,
   navigate
 ) => {
   try {
@@ -19,7 +20,8 @@ export const loginUser = async (
 
     localStorage.setItem("userDetails", JSON.stringify(res.data.foundUser));
 
-    dispathcAuth(userLogin(res.data));
+    dispatch(userLogin());
+    dispatch(setCurrentUserDetails(res.data.foundUser));
     navigate("/home");
   } catch (e) {
     console.log("error occured: ", e);

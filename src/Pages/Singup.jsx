@@ -8,7 +8,7 @@ import wallpaper from "../assets/wallpaper.png";
 import { signinUser } from "../Services/Auth/signupApi";
 
 function Singup() {
-  const dispathcAuth = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [tempUserDetail, setTempUserDetail] = useState({
@@ -106,7 +106,7 @@ function Singup() {
                     tempUserName,
                     tempEmail,
                     tempPassword,
-                    dispathcAuth,
+                    dispatch,
                     navigate
                   )
                 : alert("Please fill all the fields ")

@@ -8,7 +8,7 @@ import wallpaper from "../assets/wallpaper.png";
 import { loginUser } from "../Services/Auth/loginApi";
 
 function Login() {
-  const dispathcAuth = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [tempUserDetail, setTempUserDetail] = useState({
@@ -72,7 +72,7 @@ function Login() {
             className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer"
             onClick={() =>
               tempUserName && tempPassword
-                ? loginUser(tempUserName, tempPassword, dispathcAuth, navigate)
+                ? loginUser(tempUserName, tempPassword, dispatch, navigate)
                 : alert("Please fill all the fields")
             }
           >
