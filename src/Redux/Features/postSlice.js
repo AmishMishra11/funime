@@ -25,6 +25,14 @@ export const postslice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    addNewPostToAllPost: (state, action) => {
+      state.allPosts = action.payload;
+    },
+
+    addNewPostToUserFeedPost: (state, action) => {
+      state.userFeedPost.unshift(action.payload);
+    },
+
     removePostFromUserFeed: (state, action) => {
       state.userFeedPost = state.userFeedPost.filter(
         (posts) => action.payload !== posts.userId
@@ -59,7 +67,11 @@ export const postslice = createSlice({
   },
 });
 
-export const { removeAllPostFromUserFeed, removePostFromUserFeed } =
-  postslice.actions;
+export const {
+  addNewPostToAllPost,
+  addNewPostToUserFeedPost,
+  removeAllPostFromUserFeed,
+  removePostFromUserFeed,
+} = postslice.actions;
 
 export default postslice.reducer;

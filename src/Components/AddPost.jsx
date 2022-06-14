@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 
-import { useSelector } from "react-redux/es/exports";
+import { useSelector, useDispatch } from "react-redux/es/exports";
+import { addPost } from "../Services/Post/addPostApi";
 
 function AddPost() {
+  const dispatch = useDispatch();
+  const fileInput = useRef();
+
   const { currentUserDetails } = useSelector((store) => store.users);
+
+  const [postImage, setPostImage] = useState("");
+  const [postContent, setPostContent] = useState("");
+
+  const newPostHandler = () => {
+    addPost(
+      {
+        content: postContent,
+        postImg: postImage && URL.createObjectURL(postImage),
+        userImage: currentUserDetails.profileImg,
+      },
+      dispatch
+    );
+
+    setPostContent("");
+    setPostImage("");
+  };
 
   return (
     <div className="border-b-2 border-primaryDark ">
@@ -16,17 +37,52 @@ function AddPost() {
 
         <div className="w-full  ">
           <textarea
-            className="w-full h-24 p-2 rounded-lg"
+            className="w-full h-24 p-2 rounded-lg "
             name="newPost"
             placeholder="What's on your mind?"
+            onChange={(e) => setPostContent(e.target.value)}
+            value={postContent}
+            required
           ></textarea>
+          {postImage && (
+            <div className="w-32 h-fit m-2 relative rounded-md  ">
+              <img
+                src={postImage && URL.createObjectURL(postImage)}
+                alt="uploadImage"
+                className="w-fit h-fit rounded-md"
+              />
+              <span
+                className="flex justify-center items-center bg-primaryLight absolute top-[-8px] right-[-10px] w-6 h-6 rounded-full cursor-pointer"
+                onClick={() => setPostImage("")}
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </span>
+            </div>
+          )}
 
           <div className="flex justify-between items-center">
             <div>
-              <i className="  pr-2  fa-lg fa-solid fa-image"></i>
-              <i className="  pr-2  fa-lg fa-regular fa-face-laugh-squint"></i>
+              <input
+                className="hidden "
+                type="file"
+                onChange={(e) => setPostImage(e.target.files[0])}
+                accept="image/*"
+                ref={fileInput}
+              />
+              <i
+                className="pr-2 fa-xl fa-solid fa-image cursor-pointer text-primaryDark"
+                onClick={() => fileInput.current.click()}
+              ></i>
             </div>
-            <button className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md">
+
+            <button
+              className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
+              onClick={() =>
+                postContent || postImage
+                  ? newPostHandler()
+                  : alert("You have to fill alteast one field")
+              }
+            >
               Post
             </button>
           </div>
