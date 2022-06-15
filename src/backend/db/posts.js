@@ -29,7 +29,7 @@ export const posts = [
     _id: uuid(),
     content: "Goku",
     likes: {
-      likeCount: 0,
+      likeCount: 5,
       likedBy: [],
       dislikedBy: [],
     },
@@ -47,7 +47,7 @@ export const posts = [
     _id: uuid(),
     content: "Solo Leveling",
     likes: {
-      likeCount: 0,
+      likeCount: 2,
       likedBy: [],
       dislikedBy: [],
     },
