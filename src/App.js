@@ -5,7 +5,14 @@ import Login from "./Pages/Login";
 import Singup from "./Pages/Singup";
 import Home from "./Pages/Home";
 
-import { Bookmarks, Explore, Feed, Profile, Search } from "./Components";
+import {
+  Bookmarks,
+  Explore,
+  Feed,
+  Profile,
+  PeopleProfile,
+  Search,
+} from "./Components";
 import RequiresAuth from "./RequiresAuth";
 
 function App() {
@@ -23,6 +30,10 @@ function App() {
             <Route path="explore" element={<Explore />} />
             <Route path="bookmarks" element={<Bookmarks />} />
             <Route path="profile" element={<Profile />} />
+            <Route
+              path="peopleprofile/:peopleprofileID"
+              element={<PeopleProfile />}
+            />
           </Route>
         </Route>
       </Routes>

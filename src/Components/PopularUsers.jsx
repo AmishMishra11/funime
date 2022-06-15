@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
-  loadUsersCall,
+  loadAllUsersCall,
   followCall,
   unfollowCall,
 } from "../Redux/Features/userSlice";
 import {
-  loadUserPostCall,
+  loadFollowedUserPostsCall,
   removePostFromUserFeed,
 } from "../Redux/Features/postSlice";
 
@@ -17,15 +17,15 @@ function PopularUsers() {
 
   const dispatch = useDispatch();
 
-  const { currentUserDetails, allUsers, userStatus } = useSelector(
+  const { currentUserDetails, allUsers, allUserStatus } = useSelector(
     (store) => store.users
   );
 
   useEffect(() => {
-    if (userStatus === "idle") {
-      dispatch(loadUsersCall());
+    if (allUserStatus === "idle") {
+      dispatch(loadAllUsersCall());
     }
-  }, [dispatch, userStatus, currentUserDetails]);
+  }, [dispatch, allUserStatus, currentUserDetails]);
 
   const currentUserId = currentUserDetails._id;
 
@@ -37,7 +37,7 @@ function PopularUsers() {
 
   const PopularUsers = sortedUsers?.slice(0, 4);
 
-  return userStatus === "loading" ? (
+  return allUserStatus === "loading" ? (
     <p>Loading</p>
   ) : (
     <>
@@ -48,7 +48,9 @@ function PopularUsers() {
         >
           <div
             className="flex items-center justify-between cursor-pointer"
-            onClick={() => navigate("/home/profile")}
+            onClick={() => {
+              navigate(`/home/peopleprofile/${_id}`);
+            }}
           >
             <img
               className=" rounded-full w-12 h-12 bg-pink-300 cursor-pointer"
@@ -75,7 +77,7 @@ function PopularUsers() {
             <button
               className="py-1 bg-primaryDark text-secondaryLight border-2 border-primaryDark rounded-md w-24"
               onClick={() => {
-                dispatch(loadUserPostCall(username));
+                dispatch(loadFollowedUserPostsCall(username));
                 dispatch(followCall(_id));
               }}
             >

@@ -5,7 +5,7 @@ import { AddPost } from "./AddPost";
 import { Post } from "./Post";
 
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { loadUserPostCall } from "../Redux/Features/postSlice";
+import { loadFollowedUserPostsCall } from "../Redux/Features/postSlice";
 
 function Feed() {
   const dispatch = useDispatch();
@@ -14,9 +14,11 @@ function Feed() {
 
   useEffect(() => {
     if (currentUserDetails) {
-      dispatch(loadUserPostCall(currentUserDetails?.username));
+      dispatch(loadFollowedUserPostsCall(currentUserDetails?.username));
     }
-  }, []);
+  }, [dispatch, currentUserDetails]);
+
+  const { postStatus, userFeedPost } = useSelector((store) => store.posts);
 
   return (
     <div className="flex justify-between bg-secondaryLight ">
@@ -24,7 +26,12 @@ function Feed() {
         <div>
           <AddPost />
           <main className="p-4">
-            <Post />
+            {postStatus === "loading" ? (
+              <div>Loading...</div>
+            ) : (
+              userFeedPost.map((item) => <Post key={item._id} item={item} />)
+            )}
+
             <div className="text-primaryDark">
               Follow more users to see their posts.
             </div>

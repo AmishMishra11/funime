@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const getUser = async (id) => {
+export const getAllUsers = async () => {
   try {
     const res = await axios({
       method: "GET",
-      url: `/api/users/${id}`,
+      url: "/api/users",
     });
 
-    return res.data.user;
+    return res.data.users;
   } catch (e) {
     console.log("error occured: ", e);
   }

@@ -1,7 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { loadUserPostCall } from "../Redux/Features/postSlice";
+
 function Sidebar() {
+  const dispatch = useDispatch();
+
+  const { currentUserDetails } = useSelector((store) => store.users);
+
   const getActiveStyle = ({ isActive }) => ({
     color: isActive ? "#9333EA" : "",
   });
@@ -58,6 +65,9 @@ function Sidebar() {
           to="/home/profile"
           end
           className="inline-flex items-center"
+          onClick={() =>
+            dispatch(loadUserPostCall(currentUserDetails?.username))
+          }
         >
           <i className="fa-solid fa-user"></i>
           <h4 className="hidden px-2 font-medium lg:block">Profile</h4>

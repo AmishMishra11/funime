@@ -36,12 +36,17 @@ export const signupHandler = function (schema, request) {
       updatedAt: formatDate(),
       username,
       password,
+      email: "",
+      about: "",
+      portfolio: "",
       ...rest,
       followers: [],
       following: [],
       bookmarks: [],
       profileImg:
         "https://res.cloudinary.com/amish11/image/upload/v1654875318/social%20media/guest_ob9mu4.png",
+      profileBackgroundImg:
+        "https://res.cloudinary.com/amish11/image/upload/v1655103095/social%20media/Gojo_Chibi_amoppk.jpg",
     };
     const createdUser = schema.users.create(newUser);
     const encodedToken = sign(
