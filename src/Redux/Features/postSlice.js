@@ -10,6 +10,7 @@ const initialState = {
   allPosts: [],
   userPostStatus: "idle",
   userPosts: [],
+  followedUserPostsStatus: "idle",
   userFeedPost: [],
   singlePost: {},
 };
@@ -18,6 +19,11 @@ export const loadPostsCall = createAsyncThunk("posts/loadPostsCall", getPosts);
 
 export const loadUserPostCall = createAsyncThunk(
   "posts/loadUserPostCall",
+  (userName) => getUserPosts(userName)
+);
+
+export const loadFollowedUserPostsCall = createAsyncThunk(
+  "posts/loadFollowedUserPostsCall",
   (userName) => getUserPosts(userName)
 );
 
@@ -61,8 +67,23 @@ export const postslice = createSlice({
     [loadUserPostCall.fulfilled]: (state, action) => {
       state.userPostStatus = "fulfilled";
       state.userPosts = action.payload;
+    },
 
-      state.userFeedPost.unshift(...action.payload);
+    [loadFollowedUserPostsCall.pending]: (state) => {
+      state.followedUserPostsStatus = "loading";
+    },
+
+    [loadFollowedUserPostsCall.fulfilled]: (state, action) => {
+      state.followedUserPostsStatus = "fulfilled";
+
+      const tempAr = action.payload.filter((newPost) => {
+        const result = state.userFeedPost.find(
+          (oldPost) => oldPost.id === newPost.id
+        );
+        return result ? false : true;
+      });
+
+      state.userFeedPost.unshift(...tempAr);
     },
   },
 });

@@ -1,10 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PopularUsers } from "./PopularUsers";
-import { useSelector } from "react-redux/es/exports";
+
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { loadUserPostCall } from "../Redux/Features/postSlice";
 
 function AsideFeed() {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const { currentUserDetails } = useSelector((store) => store.users);
 
@@ -17,7 +21,10 @@ function AsideFeed() {
           src={profileImg}
           alt="Current User Profile"
           className=" rounded-full w-16 h-16 bg-pink-300 cursor-pointer"
-          onClick={() => navigate("/home/profile")}
+          onClick={() => {
+            dispatch(loadUserPostCall(currentUserDetails?.username));
+            navigate("/home/profile");
+          }}
         />
 
         <h1 className=" font-medium text-lg">{username}</h1>
