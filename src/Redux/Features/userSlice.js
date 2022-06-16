@@ -7,6 +7,9 @@ import { follow } from "../../Services/Follow/followApi";
 import { unfollow } from "../../Services/Follow/unfollowApi";
 import { editUser } from "../../Services/User/editUserApi";
 import { getUser } from "../../Services/User/getUserApi";
+import { addBookmarks } from "../../Services/Bookmark/addBookmarksApi";
+import { getBookmarks } from "../../Services/Bookmark/getBookmarksApi";
+import { removeBookmarks } from "../../Services/Bookmark/removeBookmarksApi";
 
 const initialState = {
   allUsers: [],
@@ -19,6 +22,9 @@ const initialState = {
 
   user: [],
   userStatus: "idle",
+
+  bookmarkStatus: "idle",
+  bookmarks: [],
 };
 
 export const loadAllUsersCall = createAsyncThunk(
@@ -33,6 +39,20 @@ export const loadUserCall = createAsyncThunk("users/loadUesrCall", (id) =>
 export const editUserCall = createAsyncThunk(
   "users/editUserCall",
   (editUesrData) => editUser(editUesrData)
+);
+
+export const addBookmarkCall = createAsyncThunk("users/addBookmarkCall", (id) =>
+  addBookmarks(id)
+);
+
+export const removeBookmarkCall = createAsyncThunk(
+  "users/removeBookmarkCall",
+  (id) => removeBookmarks(id)
+);
+
+export const getBookmarkCall = createAsyncThunk(
+  "users/getBookmarkCall",
+  getBookmarks
 );
 
 export const followCall = createAsyncThunk("users/followCall", (id) =>
@@ -82,6 +102,35 @@ export const userSlice = createSlice({
     [editUserCall.fulfilled]: (state, action) => {
       state.allUserStatus = "fulfilled";
       state.currentUserDetails = action.payload;
+    },
+
+    [addBookmarkCall.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload;
+      state.currentUserDetails.bookmarks = action.payload;
+
+      localStorage.setItem(
+        "userDetails",
+        JSON.stringify(state.currentUserDetails)
+      );
+    },
+
+    [removeBookmarkCall.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload;
+      state.currentUserDetails.bookmarks = action.payload;
+
+      localStorage.setItem(
+        "userDetails",
+        JSON.stringify(state.currentUserDetails)
+      );
+    },
+
+    [getBookmarkCall.pending]: (state) => {
+      state.bookmarkStatus = "loading";
+    },
+
+    [getBookmarkCall.fulfilled]: (state, action) => {
+      state.bookmarkStatus = "fulfilled";
+      state.bookmarks = action.payload;
     },
 
     [followCall.pending]: (state) => {

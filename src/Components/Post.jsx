@@ -1,6 +1,15 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addBookmarkCall,
+  removeBookmarkCall,
+} from "../Redux/Features/userSlice";
 
 function Post({ item }) {
+  const dispatch = useDispatch();
+
+  const { bookmarks } = useSelector((store) => store.users);
+
   const {
     _id,
     userImage,
@@ -47,7 +56,18 @@ function Post({ item }) {
         <i className="fa-lg fa-regular fa-comment  cursor-pointer  text-primaryDark">
           <span className="pl-2">{comments?.length}</span>
         </i>
-        <i className="fa-lg fa-regular fa-bookmark  cursor-pointer  text-primaryDark"></i>
+
+        {bookmarks.find((item) => item._id === _id) ? (
+          <i
+            className="fa-lg fa-solid fa-bookmark cursor-pointer  text-primaryDark"
+            onClick={() => dispatch(removeBookmarkCall(_id))}
+          ></i>
+        ) : (
+          <i
+            className="fa-lg fa-regular fa-bookmark  cursor-pointer  text-primaryDark"
+            onClick={() => dispatch(addBookmarkCall(_id))}
+          ></i>
+        )}
       </div>
     </div>
   );
