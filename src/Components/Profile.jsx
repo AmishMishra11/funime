@@ -84,7 +84,9 @@ function Profile() {
           </div>
         </div>
 
-        <AddPost />
+        <div className="mb-4">
+          <AddPost />
+        </div>
 
         {userPosts ? (
           displayUserPosts.map((item) => <Post key={item._id} item={item} />)
