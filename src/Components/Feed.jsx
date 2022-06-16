@@ -7,6 +7,7 @@ import { Post } from "./Post";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { loadFollowedUserPostsCall } from "../Redux/Features/postSlice";
 
+import { Link } from "react-router-dom";
 function Feed() {
   const dispatch = useDispatch();
 
@@ -32,8 +33,12 @@ function Feed() {
               userFeedPost.map((item) => <Post key={item._id} item={item} />)
             )}
 
-            <div className="text-primaryDark">
-              Follow more users to see their posts.
+            <div className="text-primaryDark md:flex  items-center justify-between">
+              <div className="py-2">Follow more users to see their posts.</div>
+
+              <Link to="/home/search" className="py-2 cursor-pointer">
+                See Suggested Users
+              </Link>
             </div>
           </main>
         </div>

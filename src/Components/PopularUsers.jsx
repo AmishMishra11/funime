@@ -44,7 +44,7 @@ function PopularUsers() {
       {PopularUsers?.map(({ profileImg, username, fullName, _id }) => (
         <div
           key={_id}
-          className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm "
+          className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm bg-secondaryLight"
         >
           <div
             className="flex items-center justify-between cursor-pointer"
