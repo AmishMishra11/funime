@@ -51,7 +51,7 @@ function Search() {
   let showUsers = [];
   let showPosts = [];
   if (!searchText) {
-    showUsers = allUsers;
+    showUsers = PopularUsers;
     showPosts = [];
   } else {
     const tempUser = PopularUsers.filter((users) => {
