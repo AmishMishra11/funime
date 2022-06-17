@@ -9,8 +9,9 @@ import {
   Bookmarks,
   Explore,
   Feed,
-  Profile,
   PeopleProfile,
+  Profile,
+  PostPage,
   Search,
 } from "./Components";
 import RequiresAuth from "./RequiresAuth";
@@ -34,6 +35,7 @@ function App() {
               path="peopleprofile/:peopleprofileID"
               element={<PeopleProfile />}
             />
+            <Route path="post/:postID" element={<PostPage />} />
           </Route>
         </Route>
       </Routes>

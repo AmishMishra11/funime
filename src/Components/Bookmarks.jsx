@@ -32,8 +32,8 @@ function Bookmarks() {
 
         {!bookmarks.length && (
           <div>
-            <div className="text-lg pb-2">Oops! No Bookmarks Found!</div>
-            <img src={noResult} alt="" className="rounded" />
+            <div className="text-lg pb-2">No Bookmarks Found!</div>
+            <img src={noResult} alt="Not Found" className="rounded" />
           </div>
         )}
       </div>
