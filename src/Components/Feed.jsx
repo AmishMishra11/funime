@@ -12,14 +12,19 @@ function Feed() {
   const dispatch = useDispatch();
 
   const { currentUserDetails } = useSelector((store) => store.users);
+  const { allPostsStatus, userFeedPost, allPosts } = useSelector(
+    (store) => store.posts
+  );
 
   useEffect(() => {
-    if (currentUserDetails) {
-      dispatch(loadFollowedUserPostsCall(currentUserDetails?.username));
-    }
-  }, [dispatch, currentUserDetails]);
+    dispatch(loadFollowedUserPostsCall(currentUserDetails?.username));
+  }, [allPosts]);
 
-  const { postStatus, userFeedPost } = useSelector((store) => store.posts);
+  useEffect(() => {
+    currentUserDetails?.following?.map((item) =>
+      dispatch(loadFollowedUserPostsCall(item.username))
+    );
+  }, [currentUserDetails]);
 
   return (
     <div className="flex justify-between bg-secondaryLight ">
@@ -27,7 +32,7 @@ function Feed() {
         <div>
           <AddPost />
           <main className="p-4">
-            {postStatus === "loading" ? (
+            {allPostsStatus === "loading" ? (
               <div>Loading...</div>
             ) : (
               userFeedPost.map((item) => <Post key={item._id} item={item} />)

@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const getPosts = async (id) => {
+export const getAllPosts = async () => {
   try {
     const res = await axios({
       method: "GET",
-      url: `/api/posts/${id}`,
+      url: "/api/posts",
     });
 
-    return res.data.post;
+    return res.data.posts;
   } catch (e) {
     console.log("error occured: ", e);
   }

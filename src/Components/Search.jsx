@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import noResult from "../assets/what_should_we_do.gif";
 
 import {
-  loadPostsCall,
+  loadAllPostsCall,
   loadFollowedUserPostsCall,
   removePostFromUserFeed,
 } from "../Redux/Features/postSlice";
@@ -23,7 +23,7 @@ function Search() {
 
   const navigate = useNavigate();
 
-  const { allPosts, postStatus } = useSelector((store) => store.posts);
+  const { allPosts, allPostsStatus } = useSelector((store) => store.posts);
   const { currentUserDetails, allUsers, allUserStatus } = useSelector(
     (store) => store.users
   );
@@ -37,14 +37,14 @@ function Search() {
   );
 
   useEffect(() => {
-    if (postStatus === "idle") {
-      dispatch(loadPostsCall());
+    if (allPostsStatus === "idle") {
+      dispatch(loadAllPostsCall());
     }
 
     if (allUserStatus === "idle") {
       dispatch(loadAllUsersCall());
     }
-  }, [dispatch, postStatus, allUserStatus]);
+  }, [dispatch, allPostsStatus, allUserStatus]);
 
   const [searchText, setSearchText] = useState("");
 
@@ -170,7 +170,7 @@ function Search() {
         {showPosts.length === 0 && showUsers.length === 0 && (
           <div>
             <div className="text-lg pb-2">Oops! No post or user found!</div>
-            <img src={noResult} alt="" className="rounded" />
+            <img src={noResult} alt="Not Found" className="rounded" />
           </div>
         )}
       </div>

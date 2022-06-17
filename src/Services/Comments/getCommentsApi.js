@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export const getPosts = async (id) => {
+export const getComments = async (id) => {
+  console.log("api");
   try {
     const res = await axios({
       method: "GET",
-      url: `/api/posts/${id}`,
+      url: `/api/comments/${id}`,
     });
-
-    return res.data.post;
+    console.log(res.data.comments);
   } catch (e) {
     console.log("error occured: ", e);
   }

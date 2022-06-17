@@ -7,10 +7,7 @@ import {
   followCall,
   unfollowCall,
 } from "../Redux/Features/userSlice";
-import {
-  loadFollowedUserPostsCall,
-  removePostFromUserFeed,
-} from "../Redux/Features/postSlice";
+import { removePostFromUserFeed } from "../Redux/Features/postSlice";
 
 function PopularUsers() {
   const navigate = useNavigate();
@@ -77,7 +74,6 @@ function PopularUsers() {
             <button
               className="py-1 bg-primaryDark text-secondaryLight border-2 border-primaryDark rounded-md w-24"
               onClick={() => {
-                dispatch(loadFollowedUserPostsCall(username));
                 dispatch(followCall(_id));
               }}
             >

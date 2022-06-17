@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loadPostsCall } from "../Redux/Features/postSlice";
+import { loadAllPostsCall } from "../Redux/Features/postSlice";
 
 import { Post } from "./Post";
 
 function Explore() {
   const dispatch = useDispatch();
-  const { allPosts, postStatus } = useSelector((store) => store.posts);
+  const { allPosts, allPostsStatus } = useSelector((store) => store.posts);
 
   useEffect(() => {
-    if (postStatus === "idle") {
-      dispatch(loadPostsCall());
+    if (allPostsStatus === "idle") {
+      dispatch(loadAllPostsCall());
     }
-  }, [dispatch, postStatus]);
+  }, [dispatch, allPostsStatus]);
 
   const [filter, setFilter] = useState("Popular");
 
@@ -84,7 +84,7 @@ function Explore() {
         </div>
 
         <div>
-          {postStatus === "loading" ? (
+          {allPostsStatus === "loading" ? (
             <div>Loading</div>
           ) : (
             showExplore?.map((item) => <Post key={item._id} item={item} />)
