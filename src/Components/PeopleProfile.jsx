@@ -45,7 +45,7 @@ function PeopleProfile() {
   );
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       {user ? (
         <div className="flex flex-col p-4">
           <div className="relative mb-16 ">
@@ -97,8 +97,8 @@ function PeopleProfile() {
                   </a>
                 </div>
               )}
-              <p className="md:px-2 md:pl-4 py-2">
-                <i className="fa-solid fa-calendar-days"></i>{" "}
+              <p className="md:px-2 md:pl-4 ">
+                <i className="fa-solid fa-calendar-days"></i>
                 <span className="px-1">Joined</span>
                 {new Date(updatedAt)?.toDateString()}
               </p>

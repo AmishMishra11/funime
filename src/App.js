@@ -13,6 +13,7 @@ import {
   Profile,
   PostPage,
   Search,
+  EditPost,
 } from "./Components";
 import RequiresAuth from "./RequiresAuth";
 
@@ -36,6 +37,8 @@ function App() {
               element={<PeopleProfile />}
             />
             <Route path="post/:postID" element={<PostPage />} />
+
+            <Route path="editPost/:postID" element={<EditPost />} />
           </Route>
         </Route>
       </Routes>

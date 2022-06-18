@@ -17,7 +17,7 @@ function Bookmarks() {
   }, [dispatch, bookmarkStatus]);
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="flex flex-col justify-center items-center p-4">
         <div className="text-primaryDark text-lg  md:text-3xl font-medium pb-5 mb-4 border-b-2 border-primaryDark w-full text-center">
           Bookmarks
@@ -30,7 +30,7 @@ function Bookmarks() {
           )}
         </div>
 
-        {!bookmarks.length && (
+        {!bookmarks?.length && (
           <div>
             <div className="text-lg pb-2">No Bookmarks Found!</div>
             <img src={noResult} alt="Not Found" className="rounded" />

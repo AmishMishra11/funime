@@ -1,6 +1,10 @@
 import axios from "axios";
+import {
+  deletePost,
+  removePostFromUserFeed,
+} from "../../Redux/Features/postSlice";
 
-export const removePost = async (PostId) => {
+export const removePost = async (PostId, userId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -10,7 +14,8 @@ export const removePost = async (PostId) => {
       headers: { authorization: encodedToken },
     });
 
-    console.log(res.data.posts);
+    dispatch(deletePost(res.data.posts));
+    dispatch(removePostFromUserFeed(userId));
   } catch (e) {
     console.log("error occured: ", e);
   }

@@ -18,6 +18,7 @@ function AddPost() {
         content: postContent,
         postImg: postImage && URL.createObjectURL(postImage),
         userImage: currentUserDetails.profileImg,
+        userId: currentUserDetails._id,
       },
       dispatch
     );

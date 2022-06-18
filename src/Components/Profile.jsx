@@ -36,7 +36,7 @@ function Profile() {
   );
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="flex flex-col p-4">
         <div className="relative mb-16 ">
           <img
@@ -72,7 +72,7 @@ function Profile() {
                 </a>
               </div>
             )}
-            <p className="  py-2">
+            <p className="">
               <i className="fa-solid fa-calendar-days"></i>{" "}
               <span className="px-1">Joined</span>
               {new Date(updatedAt)?.toDateString()}
