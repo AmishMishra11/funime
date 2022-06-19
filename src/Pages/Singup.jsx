@@ -7,6 +7,8 @@ import wallpaper from "../assets/wallpaper.png";
 
 import { signinUser } from "../Services/Auth/signupApi";
 
+import { toast } from "react-toastify";
+
 function Singup() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ function Singup() {
     tempUserDetail;
 
   return (
-    <div className="flex lg:justify-between items-center w-screen h-screen ">
+    <div className="flex lg:justify-between items-center w-screen h-screen  bg-secondaryLight dark:bg-nightDark ">
       <img
         className="hidden lg:block h-screen w-2/4 xl:w-7/12"
         src={wallpaper}
@@ -37,16 +39,19 @@ function Singup() {
       />
 
       <div className="flex justify-center items-center  bg-fixed  w-full h-full  bg-[url('https://res.cloudinary.com/amish11/image/upload/v1654621786/social%20media/mobile-wallpaper_pfk8rt.jpg')] lg:bg-none ">
-        <div className=" flex-row justify-center content-center w-80 xl:w-96 p-5 m-2  bg-secondaryDark border-2 rounded-lg border-primaryDark shadow-xl ">
+        <div
+          className=" flex-row justify-center content-center w-80 xl:w-96 p-5 m-2  border-2 rounded-lg border-primaryDark shadow-xl bg-secondaryDark 
+        dark:bg-nightLight"
+        >
           <h1 className="text-primaryDark text-3xl font-semibold text-center mb-10">
             Sign Up
           </h1>
 
           <div className="flex-row  justify-center items-center w-full p-1">
-            <div className="">Full Name:</div>
+            <div className="dark:text-secondaryLight">Full Name:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
                 type="text"
                 placeholder="Full Name"
                 id="full-name-id"
@@ -57,10 +62,10 @@ function Singup() {
           </div>
 
           <div className="flex-row  justify-center items-center w-full p-1">
-            <div className="">User Name:</div>
+            <div className="dark:text-secondaryLight">User Name:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
                 type="text"
                 placeholder="UserName"
                 id="user-name-id"
@@ -71,10 +76,10 @@ function Singup() {
           </div>
 
           <div className="flex-row  justify-center items-center w-full p-1">
-            <div className="">Email:</div>
+            <div className="dark:text-secondaryLight">Email:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
                 type="test"
                 placeholder="name@company.com"
                 id="email-id"
@@ -85,10 +90,10 @@ function Singup() {
           </div>
 
           <div className="flex-col justify-center items-center w-full  p-1">
-            <div>Password:</div>
+            <div className="dark:text-secondaryLight">Password:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
                 type="password"
                 placeholder="••••••••"
                 id="password-id"
@@ -109,14 +114,17 @@ function Singup() {
                     dispatch,
                     navigate
                   )
-                : alert("Please fill all the fields ")
+                : toast.error("Please fill all the fields")
             }
           >
             Sign Up
           </div>
 
           <div className="p-1 text-center ">
-            <Link className="hover:border-b-2 border-primaryDark" to="/">
+            <Link
+              className="hover:border-b-2 border-primaryDark dark:text-secondaryLight"
+              to="/"
+            >
               Already have an Account
               <i className="fa-solid fa-angle-right"></i>
             </Link>

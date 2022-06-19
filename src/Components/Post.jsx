@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -10,6 +12,8 @@ import { like } from "../Services/Like/likeApi";
 import { removePost } from "../Services/Post/removePostApi";
 
 function Post({ item }) {
+  const ref = useRef();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,10 +35,22 @@ function Post({ item }) {
 
   const [options, setOptions] = useState(false);
 
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (options && ref.current && !ref.current.contains(e.target)) {
+        setOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [options]);
+
   return (
     <div
       key={_id}
-      className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight"
+      className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark dark:border-nightInput"
     >
       <div className="flex items-center justify-between">
         <div
@@ -51,7 +67,7 @@ function Post({ item }) {
             className=" rounded-full w-10 h-10 md:w-12 md:h-12 bg-pink-300 cursor-pointer mr-2"
           />
 
-          <div className="flex flex-col items-start justify-center">
+          <div className="flex flex-col items-start justify-center ">
             <div>{username}</div>
             <div>{new Date(updatedAt)?.toDateString()}</div>
           </div>
@@ -64,7 +80,10 @@ function Post({ item }) {
           >
             <i className="fa-lg fa-solid fa-ellipsis-vertical "></i>
             {options && (
-              <div className="w-24 h-20 bg-secondaryDark border-2 border-primaryLight rounded-md absolute top-0 right-4 flex flex-col items-start p-2 justify-center">
+              <div
+                className="w-24 h-20 bg-secondaryDark dark:bg-nightLight border-2 border-primaryLight rounded-md absolute top-0 right-4 flex flex-col items-start p-2 justify-center"
+                ref={ref}
+              >
                 <div
                   className="p-1 "
                   onClick={() => navigate(`/home/editPost/${_id}`)}

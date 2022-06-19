@@ -8,7 +8,7 @@ function Home() {
       <Navigation />
 
       <div className="md:flex justify-end flex-row-reverse ">
-        <div className="bg-secondaryLight md:w-full ">
+        <div className="bg-secondaryLight dark:bg-nightDark md:w-full ">
           <Outlet />
         </div>
 

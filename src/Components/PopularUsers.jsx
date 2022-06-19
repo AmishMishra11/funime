@@ -41,7 +41,7 @@ function PopularUsers() {
       {PopularUsers?.map(({ profileImg, username, fullName, _id }) => (
         <div
           key={_id}
-          className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm bg-secondaryLight"
+          className="flex items-center justify-between w-full p-2 m-2 border-2 rounded-md shadow-sm bg-secondaryLight dark:bg-nightDark dark:border-nightInput"
         >
           <div
             className="flex items-center justify-between cursor-pointer"
@@ -55,14 +55,14 @@ function PopularUsers() {
               alt="Users Profile"
             />
 
-            <div className="flex flex-col px-2">
+            <div className="flex flex-col px-2 dark:text-secondaryDark">
               <p className="font-medium">{username}</p>
               <p className="text-sm">{fullName}</p>
             </div>
           </div>
           {currentUserDetails?.following?.find((item) => item._id === _id) ? (
             <button
-              className="py-1 bg-secondaryLight text-primaryDark  border-2 border-primaryDark rounded-md w-24"
+              className="py-1 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md w-24"
               onClick={() => {
                 dispatch(removePostFromUserFeed(_id));
                 dispatch(unfollowCall(_id));

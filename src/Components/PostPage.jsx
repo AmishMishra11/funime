@@ -5,6 +5,7 @@ import { loadPostCall } from "../Redux/Features/postSlice";
 
 import { dislike } from "../Services/Like/dislikeApi";
 import { like } from "../Services/Like/likeApi";
+import { toast } from "react-toastify";
 
 import {
   addBookmarkCall,
@@ -103,12 +104,25 @@ function PostPage() {
     setIsEdit(false);
   };
 
+  const ref = useRef();
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (options && ref.current && !ref.current.contains(e.target)) {
+        setOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [options]);
+
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight  overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="p-5">
         {/* show post */}
         {singlePost ? (
-          <div className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight">
+          <div className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark dark:border-nightInput">
             <div
               className="flex items-center justify-start"
               onClick={() => {
@@ -179,7 +193,7 @@ function PostPage() {
         )}
 
         {/* show comments */}
-        <div className="flex flex-col justify-center items-center w-full h-full bg-secondaryDark rounded-md">
+        <div className="flex flex-col justify-center items-center w-full h-full bg-secondaryDark dark:bg-nightLight  rounded-md">
           {comments?.map(
             ({
               _id,
@@ -193,7 +207,7 @@ function PostPage() {
             }) => (
               <div
                 key={_id}
-                className="flex flex-col w-full p-4  bg-secondaryLight shadow-md rounded-md mb-4"
+                className="flex flex-col w-full p-4  bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark shadow-md rounded-md mb-4"
               >
                 <div className="flex items-center justify-between">
                   <div
@@ -218,13 +232,16 @@ function PostPage() {
                   {currentUserDetails._id === commentUserId && (
                     <div
                       className="cursor-pointer relative px-2"
-                      onClick={() => setOptions((prev) => !prev)}
+                      onClick={() => setOptions(true)}
                     >
                       <i className="fa-lg fa-solid fa-ellipsis-vertical "></i>
                       {options && (
-                        <div className="w-24 h-20 bg-secondaryDark border-2 border-primaryLight rounded-md absolute top-0 right-4 flex flex-col items-start p-2 justify-center">
+                        <div
+                          className="w-24 h-20 bg-secondaryDark dark:bg-nightLight border-2 border-primaryLight rounded-md absolute top-0 right-5 flex flex-col items-start p-2 justify-center"
+                          ref={ref}
+                        >
                           <div
-                            className="p-1 "
+                            className="p-1 w-full "
                             onClick={() =>
                               editHandler({ content, commentImg, _id })
                             }
@@ -232,7 +249,7 @@ function PostPage() {
                             <i className="fa-solid fa-pen-to-square"></i>Edit
                           </div>
                           <div
-                            className="p-1 text-red-500"
+                            className="p-1 w-full text-red-500"
                             onClick={() => removeComments(postID, _id)}
                           >
                             <i className="fa-solid fa-trash"></i>Delete
@@ -294,7 +311,7 @@ function PostPage() {
 
             <div className="w-full  ">
               <textarea
-                className="w-full h-24 p-2 rounded-lg "
+                className="w-full h-24 p-2 rounded-lg dark:bg-nightInput dark:text-secondaryDark "
                 name="newPost"
                 placeholder="Add Your Comment Here"
                 onChange={(e) => setcommentContent(e.target.value)}
@@ -337,10 +354,10 @@ function PostPage() {
                   ></i>
                 </div>
 
-                <div className="flex  items-center justify-center px-2">
+                <div className="flex  items-center justify-center px-2 gap-2">
                   {isEdit && (
                     <button
-                      className="bg-red-500 text-secondaryDark w-24 p-2 border-2 rounded-md"
+                      className="bg-red-500 text-secondaryDark w-24 p-2 border-2 dark:border-nightInput rounded-md"
                       onClick={() => {
                         setcommentContent("");
                         setcommentImage("");
@@ -351,13 +368,13 @@ function PostPage() {
                     </button>
                   )}
                   <button
-                    className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
+                    className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 dark:border-nightInput rounded-md"
                     onClick={() =>
                       commentContent || commentImage
                         ? isEdit
                           ? editPostCommentHandler()
                           : newCommentHandler()
-                        : alert("You have to fill alteast one field")
+                        : toast.error("You have to fill alteast one field")
                     }
                   >
                     Comment

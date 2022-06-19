@@ -31,11 +31,11 @@ function Feed() {
   );
 
   return (
-    <div className="flex justify-between bg-secondaryLight ">
-      <div className="  w-full   md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)]  scrollbar-hide">
+    <div className="flex justify-between bg-secondaryLight dark:bg-nightDark ">
+      <div className="  w-full   md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightDark  overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)]  lg:h-[calc(100vh-9rem)]   scrollbar-hide">
         <div>
           <AddPost />
-          <main className="p-4">
+          <main className="p-4 dark:bg-nightLight ">
             {allPostsStatus === "loading" ? (
               <div>Loading...</div>
             ) : (

@@ -76,7 +76,7 @@ function Search() {
   }
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="flex flex-col justify-center items-center p-4">
         <div className="text-primaryDark text-lg  md:text-3xl font-medium pb-5 mb-4 border-b-2 border-primaryDark w-full text-center">
           <p className="mb-2">Search</p>
@@ -86,7 +86,8 @@ function Search() {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             placeholder="Search Users or Posts"
-            className="border-2 border-primaryDark rounded-lg w-4/5 md:w-3/6 p-2 text-lg text-gray-800"
+            className="border-2 border-primaryDark rounded-lg w-4/5 md:w-3/6 p-2 text-lg text-gray-800
+            dark:bg-nightInput dark:text-secondaryDark "
           />
         </div>
 
@@ -104,7 +105,7 @@ function Search() {
                   {showUsers?.map(({ profileImg, username, fullName, _id }) => (
                     <div
                       key={_id}
-                      className="flex items-center justify-between w-full p-3 mb-3  border-2 rounded-md shadow-sm bg-secondaryLight"
+                      className="flex items-center justify-between w-full p-3 mb-3  border-2 rounded-md shadow-sm bg-secondaryLight dark:bg-nightDark dark:border-nightInput dark:text-secondaryDark"
                     >
                       <div
                         className="flex items-center justify-between cursor-pointer"
@@ -169,7 +170,9 @@ function Search() {
 
         {showPosts.length === 0 && showUsers.length === 0 && (
           <div>
-            <div className="text-lg pb-2">Oops! No post or user found!</div>
+            <div className="text-lg pb-2 dark:text-secondaryDark">
+              Oops! No post or user found!
+            </div>
             <img src={noResult} alt="Not Found" className="rounded" />
           </div>
         )}

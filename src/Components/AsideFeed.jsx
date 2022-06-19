@@ -15,8 +15,8 @@ function AsideFeed() {
   const { profileImg, username, fullName } = currentUserDetails;
 
   return (
-    <div className="hidden xl:block bg-secondaryDark rounded-lg w-2/4 mr-5 h-fit my-6 pb-2">
-      <div className="flex flex-col justify-center items-center m-4 p-4 border-2 rounded-md shadow-md">
+    <div className="hidden xl:block bg-secondaryDark dark:bg-nightLight rounded-lg w-2/4 mr-5 h-fit my-6 pb-2">
+      <div className="flex flex-col justify-center items-center m-4 p-4 border-2 dark:border-nightInput rounded-md shadow-md">
         <img
           src={profileImg}
           alt="Current User Profile"
@@ -27,13 +27,20 @@ function AsideFeed() {
           }}
         />
 
-        <h1 className=" font-medium text-lg">{username}</h1>
-        <h1>{fullName}</h1>
+        <h1 className=" font-medium text-lg dark:text-secondaryDark">
+          {username}
+        </h1>
+        <h1 className="dark:text-secondaryDark">{fullName}</h1>
       </div>
 
       <div className="flex justify-between items-center">
-        <div className="leading-3 px-4 py-2">Suggested for you</div>
-        <Link to="/home/search" className="px-4 py-2 font-medium">
+        <div className="leading-3 px-4 py-2 dark:text-secondaryDark">
+          Suggested for you
+        </div>
+        <Link
+          to="/home/search"
+          className="px-4 py-2 font-medium dark:text-secondaryDark"
+        >
           See All
         </Link>
       </div>
