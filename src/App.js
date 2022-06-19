@@ -16,8 +16,13 @@ import {
   EditPost,
 } from "./Components";
 import RequiresAuth from "./RequiresAuth";
+import useDarkMode from "./Hooks/useDarkMode";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  useDarkMode();
   return (
     <div className="App">
       <Routes>
@@ -42,6 +47,17 @@ function App() {
           </Route>
         </Route>
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+      />
     </div>
   );
 }

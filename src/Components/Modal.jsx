@@ -1,16 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { editUserCall } from "../Redux/Features/userSlice";
 
-function Modal({ setIsModal, user }) {
-  const {
-    profileBackgroundImg,
-    profileImg,
-    fullName,
-    username,
-    portfolio,
-    about,
-  } = user;
+import { toast } from "react-toastify";
+
+function Modal({ setIsModal, isModal, user }) {
+  const ref = useRef();
+
+  const { profileBackgroundImg, profileImg, fullName, portfolio, about } = user;
 
   const dispatch = useDispatch();
 
@@ -21,12 +18,41 @@ function Modal({ setIsModal, user }) {
   const [editImg, setEditImg] = useState("");
   const [editFullName, setEditFullName] = useState(fullName);
 
-  const [editUserName, setEditUserName] = useState(username);
   const [editPortfolio, setEditPortfolio] = useState(portfolio);
   const [editBio, setEditBio] = useState(about);
 
+  const handleEditProfile = () => {
+    setIsModal(false);
+    dispatch(
+      editUserCall({
+        fullName: editFullName,
+        profileImg: editImg ? URL.createObjectURL(editImg) : profileImg,
+        profileBackgroundImg: editBackground
+          ? URL.createObjectURL(editBackground)
+          : profileBackgroundImg,
+        about: editBio,
+        portfolio: editPortfolio,
+      })
+    );
+  };
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (isModal && ref.current && !ref.current.contains(e.target)) {
+        setIsModal(false);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [isModal]);
+
   return (
-    <div className="flex flex-col justify-between items-center w-[20rem] sm:w-[25rem]  md:w-[30rem] bg-secondaryLight overflow-hidden border-2 border-primaryDark rounded-lg  fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-55%] md:translate-y-[-45%] p-2  z-30">
+    <div
+      className="flex flex-col justify-between items-center w-[20rem] sm:w-[25rem]  md:w-[30rem] bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark overflow-hidden border-2 border-primaryDark rounded-lg  fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-55%] md:translate-y-[-45%] p-2  z-30"
+      ref={ref}
+    >
       <div className="flex justify-end items-end p-4 w-full">
         <i
           className="fa-solid fa-xl fa-xmark cursor-pointer"
@@ -60,7 +86,7 @@ function Modal({ setIsModal, user }) {
         <img
           src={editImg ? URL.createObjectURL(editImg) : profileImg}
           alt="Pfp"
-          className="h-16 w-16 absolute bottom-[-1rem] left-6 border-2 rounded-full border-secondaryLight"
+          className="h-16 w-16 absolute bottom-[-1rem] left-6 border-2 rounded-full border-secondaryLight dark:border-nightInput"
         />
 
         <input
@@ -83,24 +109,11 @@ function Modal({ setIsModal, user }) {
           <div className="">Full Name:</div>
           <div>
             <input
-              className="border-2 rounded border-primaryLight  w-full p-1"
+              className="border-2 rounded border-primaryLight  w-full p-1 dark:bg-nightInput"
               type="text"
               placeholder={editFullName}
               value={editFullName}
               onChange={(e) => setEditFullName(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="flex-col justify-between items-center w-full">
-          <div className="">UserName:</div>
-          <div>
-            <input
-              className="border-2 rounded border-primaryLight  w-full p-1"
-              type="text"
-              placeholder={editUserName}
-              value={editUserName}
-              onChange={(e) => setEditUserName(e.target.value)}
             />
           </div>
         </div>
@@ -110,7 +123,7 @@ function Modal({ setIsModal, user }) {
         <div className="">WebSite:</div>
         <div>
           <input
-            className="border-2 rounded border-primaryLight  w-full p-1"
+            className="border-2 rounded border-primaryLight  w-full p-1 dark:bg-nightInput"
             type="text"
             placeholder={editPortfolio}
             value={editPortfolio}
@@ -123,7 +136,7 @@ function Modal({ setIsModal, user }) {
         <div>Bio</div>
 
         <textarea
-          className="border-2 rounded border-primaryLight  w-full p-1  h-20"
+          className="border-2 rounded border-primaryLight  w-full p-1 dark:bg-nightInput  h-20"
           placeholder={editBio}
           value={editBio}
           onChange={(e) => setEditBio(e.target.value)}
@@ -133,19 +146,9 @@ function Modal({ setIsModal, user }) {
       <button
         className="bg-primaryDark p-2 w-full rounded-lg"
         onClick={() => {
-          setIsModal(false);
-          dispatch(
-            editUserCall({
-              fullName: editFullName,
-              username: editUserName,
-              profileImg: editImg ? URL.createObjectURL(editImg) : profileImg,
-              profileBackgroundImg: editBackground
-                ? URL.createObjectURL(editBackground)
-                : profileBackgroundImg,
-              about: editBio,
-              portfolio: editPortfolio,
-            })
-          );
+          editFullName
+            ? handleEditProfile()
+            : toast.error("Full Name cannot be empty");
         }}
       >
         Update Profile

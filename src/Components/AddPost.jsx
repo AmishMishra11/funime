@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { addPost } from "../Services/Post/addPostApi";
+import { toast } from "react-toastify";
 
 function AddPost() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function AddPost() {
   };
 
   return (
-    <div className="border-b-2 border-primaryDark ">
+    <div className="border-b-2 border-primaryDark dark:bg-nightLight ">
       <div className="flex p-5 w-full gap-2  ">
         <img
           src={currentUserDetails?.profileImg}
@@ -38,7 +39,7 @@ function AddPost() {
 
         <div className="w-full  ">
           <textarea
-            className="w-full h-24 p-2 rounded-lg "
+            className="w-full h-24 p-2 rounded-lg dark:bg-nightInput dark:text-secondaryDark"
             name="newPost"
             placeholder="What's on your mind?"
             onChange={(e) => setPostContent(e.target.value)}
@@ -77,11 +78,11 @@ function AddPost() {
             </div>
 
             <button
-              className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
+              className="bg-primaryDark text-secondaryDark dark:border-nightLight w-24 p-2 border-2 rounded-md"
               onClick={() =>
                 postContent || postImage
                   ? newPostHandler()
-                  : alert("You have to fill alteast one field")
+                  : toast.error("You have to fill alteast one field")
               }
             >
               Post

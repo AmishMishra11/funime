@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router";
 import { loadPostCall } from "../Redux/Features/postSlice";
 import { editPost } from "../Services/Post/editPostApi";
 
+import { toast } from "react-toastify";
+
 function EditPost() {
   const { postID } = useParams();
 
@@ -37,10 +39,11 @@ function EditPost() {
     editPost(
       {
         content: PostContent,
-        postImg:
-          PostImage && typeof PostImage === "string"
+        postImg: PostImage
+          ? typeof PostImage === "string"
             ? PostImage
-            : URL.createObjectURL(PostImage),
+            : URL.createObjectURL(PostImage)
+          : "",
         userImage: currentUserDetails.profileImg,
         PostUserId: currentUserDetails._id,
       },
@@ -60,7 +63,7 @@ function EditPost() {
   };
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide  p-4">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight dark:text-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide  p-4">
       {singlePostStatus === "loading" ? (
         <div>Loading...</div>
       ) : (
@@ -74,7 +77,7 @@ function EditPost() {
 
             <div className="w-full  ">
               <textarea
-                className="w-full h-24 p-2 rounded-lg "
+                className="w-full h-24 p-2 rounded-lg  dark:bg-nightInput dark:text-secondaryDark"
                 name="newPost"
                 placeholder="Add Your Post Here"
                 onChange={(e) => setPostContent(e.target.value)}
@@ -117,9 +120,9 @@ function EditPost() {
                   ></i>
                 </div>
 
-                <div className="flex  items-center justify-center px-2">
+                <div className="flex  items-center justify-center px-2 gap-2">
                   <button
-                    className="bg-red-500 text-secondaryDark w-24 p-2 border-2 rounded-md"
+                    className="bg-red-500 text-secondaryDark w-24 p-2 border-2 dark:border-nightInput rounded-md"
                     onClick={() => {
                       setPostContent("");
                       setPostImage("");
@@ -130,11 +133,11 @@ function EditPost() {
                   </button>
 
                   <button
-                    className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
+                    className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 dark:border-nightInput rounded-md"
                     onClick={() =>
                       PostContent || PostImage
                         ? ConfirmEditPostHandler()
-                        : alert("You have to fill alteast one field")
+                        : toast.error("You have to fill alteast one field")
                     }
                   >
                     Post
@@ -145,8 +148,6 @@ function EditPost() {
           </div>
         </div>
       )}
-
-      <div onClick={() => editPostHandler()}>Start Editing</div>
     </div>
   );
 }

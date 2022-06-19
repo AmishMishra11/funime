@@ -7,6 +7,8 @@ import wallpaper from "../assets/wallpaper.png";
 
 import { loginUser } from "../Services/Auth/loginApi";
 
+import { toast } from "react-toastify";
+
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ function Login() {
   const { tempUserName, tempPassword } = tempUserDetail;
 
   return (
-    <div className="flex lg:justify-between items-center w-screen h-screen ">
+    <div className="flex lg:justify-between items-center w-screen h-screen bg-secondaryLight dark:bg-nightDark ">
       <img
         className="hidden lg:block h-screen w-2/4 xl:w-7/12"
         src={wallpaper}
@@ -34,16 +36,19 @@ function Login() {
       />
 
       <div className="flex justify-center items-center  bg-fixed  w-full h-full  bg-[url('https://res.cloudinary.com/amish11/image/upload/v1654621786/social%20media/mobile-wallpaper_pfk8rt.jpg')] lg:bg-none ">
-        <div className=" flex-row justify-center content-center w-80 xl:w-96 p-5 m-2  bg-secondaryDark border-2 rounded-lg border-primaryDark shadow-xl">
-          <h1 className="text-primaryDark text-3xl font-semibold text-center mb-10">
+        <div
+          className=" flex-row justify-center content-center w-80 xl:w-96 p-5 m-2  bg-secondaryDark 
+        dark:text-secondaryLight dark:bg-nightLight border-2 rounded-lg border-primaryDark shadow-xl"
+        >
+          <h1 className="text-primaryDark text-3xl  font-semibold text-center mb-10">
             Login
           </h1>
 
           <div className="flex-row  justify-center items-center w-full p-1">
-            <div className="">User Name:</div>
+            <div className="dark:text-secondaryLight">User Name:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 dark:bg-nightInput"
                 type="text"
                 id="email-id"
                 placeholder="UserName"
@@ -55,10 +60,10 @@ function Login() {
           </div>
 
           <div className="flex-col justify-center items-center w-full  p-1">
-            <div>Password:</div>
+            <div className="dark:text-secondaryLight">Password:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1"
+                className="border-2 rounded border-primaryDark w-full p-1 dark:bg-nightInput"
                 type="password"
                 id="password-id"
                 placeholder="••••••••"
@@ -73,14 +78,14 @@ function Login() {
             onClick={() =>
               tempUserName && tempPassword
                 ? loginUser(tempUserName, tempPassword, dispatch, navigate)
-                : alert("Please fill all the fields")
+                : toast.error("Please fill all the fields")
             }
           >
             Login
           </div>
 
           <div
-            className="mx-1 my-2 p-3 text-center text-primaryDark bg-secondaryDark border-2 rounded-lg border-primaryDark cursor-pointer"
+            className="mx-1 my-2 p-3 text-center text-primaryDark bg-secondaryDark dark:text-secondaryLight dark:bg-nightLight border-2 rounded-lg border-primaryDark cursor-pointer"
             onClick={() =>
               setTempUserDetail({
                 tempUserName: "GuestU",
@@ -91,7 +96,10 @@ function Login() {
             Guest Login
           </div>
           <div className="p-1 text-center ">
-            <Link className="hover:border-b-2 border-primaryDark" to="/signup">
+            <Link
+              className="hover:border-b-2 border-primaryDark dark:text-secondaryLight"
+              to="/signup"
+            >
               Create New Account <i className="fa-solid fa-angle-right"></i>
             </Link>
           </div>

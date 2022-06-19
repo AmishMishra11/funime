@@ -1,5 +1,6 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
   theme: {
     screens: {
       sm: "400px",
@@ -18,8 +19,9 @@ module.exports = {
         primaryDark: "#9333EA",
         secondaryLight: "#FFFFFF",
         secondaryDark: "#F1F5F9",
-        darkLight: "#1E293B",
-        darkDark: "#0F172A",
+        nightLight: "#202326",
+        nightDark: "#121212",
+        nightInput: "#3B3B3B",
       },
     },
   },

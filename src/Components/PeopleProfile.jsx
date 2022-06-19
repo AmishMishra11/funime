@@ -45,7 +45,7 @@ function PeopleProfile() {
   );
 
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       {user ? (
         <div className="flex flex-col p-4">
           <div className="relative mb-16 ">
@@ -58,12 +58,12 @@ function PeopleProfile() {
             <img
               src={profileImg}
               alt="profileImg"
-              className=" h-24 w-24  md:h-28 md:w-28 rounded-full  absolute bottom-[-2.5rem] left-4 md:left-10 border-2 border-secondaryLight"
+              className=" h-24 w-24  md:h-28 md:w-28 rounded-full  absolute bottom-[-2.5rem] left-4 md:left-10 border-2 border-secondaryLight dark:border-nightInput"
             />
 
             {currentUserDetails?.following?.find((item) => item._id === _id) ? (
               <button
-                className="py-2 w-24 bg-secondaryLight text-primaryDark  border-2 border-primaryDark rounded-md absolute bottom-[-3rem] right-0 cursor-pointer"
+                className="py-2 w-24 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md absolute bottom-[-3rem] right-0 cursor-pointer"
                 onClick={() => {
                   dispatch(removePostFromUserFeed(_id));
                   dispatch(unfollowCall(_id));
@@ -83,7 +83,7 @@ function PeopleProfile() {
               </button>
             )}
           </div>
-          <div className="h-fit w-full py-4 mb-4 bg-secondaryLight rounded-lg flex flex-col gap-2 border-b-2 border-primaryDark">
+          <div className="h-fit w-full py-4 mb-4 bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark rounded-lg flex flex-col gap-2 border-b-2 border-primaryDark">
             <p className="px-2 text-2xl font-semibold">{fullName}</p>
             <p className="px-2 text-lg">@{username}</p>
             <p className="px-2">{email}</p>
