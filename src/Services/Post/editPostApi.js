@@ -1,6 +1,7 @@
 import axios from "axios";
+import { editPostCall } from "../../Redux/Features/postSlice";
 
-export const editComments = async (postData, PostId) => {
+export const editPost = async (postData, PostId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -11,7 +12,7 @@ export const editComments = async (postData, PostId) => {
       data: { postData: postData },
     });
 
-    console.log(res.data.comments);
+    dispatch(editPostCall(res.data.posts));
   } catch (e) {
     console.log("error occured: ", e);
   }

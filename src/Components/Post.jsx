@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import {
@@ -7,6 +7,7 @@ import {
 } from "../Redux/Features/userSlice";
 import { dislike } from "../Services/Like/dislikeApi";
 import { like } from "../Services/Like/likeApi";
+import { removePost } from "../Services/Post/removePostApi";
 
 function Post({ item }) {
   const navigate = useNavigate();
@@ -28,30 +29,60 @@ function Post({ item }) {
     likes,
   } = item;
 
+  const [options, setOptions] = useState(false);
+
   return (
     <div
       key={_id}
       className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight"
     >
-      <div
-        className="flex items-center justify-start"
-        onClick={() => {
-          userId === currentUserDetails._id
-            ? navigate("/home/profile")
-            : navigate(`/home/peopleprofile/${userId}`);
-        }}
-      >
-        <img
-          src={userImage}
-          alt="userImage"
-          className=" rounded-full w-10 h-10 md:w-12 md:h-12 bg-pink-300 cursor-pointer mr-2"
-        />
+      <div className="flex items-center justify-between">
+        <div
+          className="flex items-center justify-start"
+          onClick={() => {
+            userId === currentUserDetails._id
+              ? navigate("/home/profile")
+              : navigate(`/home/peopleprofile/${userId}`);
+          }}
+        >
+          <img
+            src={userImage}
+            alt="userImage"
+            className=" rounded-full w-10 h-10 md:w-12 md:h-12 bg-pink-300 cursor-pointer mr-2"
+          />
 
-        <div className="flex flex-col items-start justify-center">
-          <div>{username}</div>
-          <div>{new Date(updatedAt)?.toDateString()}</div>
+          <div className="flex flex-col items-start justify-center">
+            <div>{username}</div>
+            <div>{new Date(updatedAt)?.toDateString()}</div>
+          </div>
         </div>
+
+        {currentUserDetails._id === userId && (
+          <div
+            className="cursor-pointer relative px-2"
+            onClick={() => setOptions((prev) => !prev)}
+          >
+            <i className="fa-lg fa-solid fa-ellipsis-vertical "></i>
+            {options && (
+              <div className="w-24 h-20 bg-secondaryDark border-2 border-primaryLight rounded-md absolute top-0 right-4 flex flex-col items-start p-2 justify-center">
+                <div
+                  className="p-1 "
+                  onClick={() => navigate(`/home/editPost/${_id}`)}
+                >
+                  <i className="fa-solid fa-pen-to-square"></i>Edit
+                </div>
+                <div
+                  className="p-1 text-red-500"
+                  onClick={() => removePost(_id, userId, dispatch)}
+                >
+                  <i className="fa-solid fa-trash"></i>Delete
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
+
       <div className="px-2 py-4 ">
         {postImg?.length !== 0 && (
           <img

@@ -24,18 +24,24 @@ function Feed() {
     currentUserDetails?.following?.map((item) =>
       dispatch(loadFollowedUserPostsCall(item.username))
     );
-  }, [currentUserDetails]);
+  }, [currentUserDetails, allPosts]);
+
+  const displayUserFeedPosts = [...userFeedPost]?.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
   return (
     <div className="flex justify-between bg-secondaryLight ">
-      <div className="  w-full   md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide">
+      <div className="  w-full   md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)]  scrollbar-hide">
         <div>
           <AddPost />
           <main className="p-4">
             {allPostsStatus === "loading" ? (
               <div>Loading...</div>
             ) : (
-              userFeedPost.map((item) => <Post key={item._id} item={item} />)
+              displayUserFeedPosts.map((item) => (
+                <Post key={item._id} item={item} />
+              ))
             )}
 
             <div className="text-primaryDark md:flex  items-center justify-between">

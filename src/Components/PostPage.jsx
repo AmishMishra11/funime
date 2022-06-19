@@ -13,6 +13,8 @@ import {
 import { addComments } from "../Services/Comments/addCommentsApi";
 import { likeComments } from "../Services/Comments/likeCommentsApi";
 import { dislikeComments } from "../Services/Comments/dislikeCommentsApi";
+import { removeComments } from "../Services/Comments/removeCommentsApi";
+import { editComments } from "../Services/Comments/editCommentsApi";
 
 function PostPage() {
   const navigate = useNavigate();
@@ -60,9 +62,51 @@ function PostPage() {
     setcommentImage("");
   };
 
+  const [options, setOptions] = useState(false);
+
+  const commentInput = useRef();
+
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [commnetId, setCommentId] = useState("");
+
+  const editHandler = (commentObj) => {
+    setIsEdit(true);
+
+    setcommentContent(commentObj.content);
+
+    setcommentImage(commentObj.commentImg);
+
+    setCommentId(commentObj._id);
+
+    commentInput.current.select();
+  };
+
+  const editPostCommentHandler = () => {
+    editComments(
+      {
+        content: commentContent,
+        commentImg: commentImage
+          ? typeof commentImage === "string"
+            ? commentImage
+            : URL.createObjectURL(commentImage)
+          : "",
+        userImage: currentUserDetails.profileImg,
+        commentUserId: currentUserDetails._id,
+      },
+      postID,
+      commnetId
+    );
+
+    setcommentContent("");
+    setcommentImage("");
+    setIsEdit(false);
+  };
+
   return (
-    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[78vh] md:h-[84vh] scrollbar-hide ">
+    <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="p-5">
+        {/* show post */}
         {singlePost ? (
           <div className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight">
             <div
@@ -134,6 +178,7 @@ function PostPage() {
           <div>Loading...</div>
         )}
 
+        {/* show comments */}
         <div className="flex flex-col justify-center items-center w-full h-full bg-secondaryDark rounded-md">
           {comments?.map(
             ({
@@ -170,9 +215,32 @@ function PostPage() {
                       <div>{new Date(updatedAt)?.toDateString()}</div>
                     </div>
                   </div>
-                  <div>
-                    <i className="fa-solid fa-ellipsis-vertical"></i>
-                  </div>
+                  {currentUserDetails._id === commentUserId && (
+                    <div
+                      className="cursor-pointer relative px-2"
+                      onClick={() => setOptions((prev) => !prev)}
+                    >
+                      <i className="fa-lg fa-solid fa-ellipsis-vertical "></i>
+                      {options && (
+                        <div className="w-24 h-20 bg-secondaryDark border-2 border-primaryLight rounded-md absolute top-0 right-4 flex flex-col items-start p-2 justify-center">
+                          <div
+                            className="p-1 "
+                            onClick={() =>
+                              editHandler({ content, commentImg, _id })
+                            }
+                          >
+                            <i className="fa-solid fa-pen-to-square"></i>Edit
+                          </div>
+                          <div
+                            className="p-1 text-red-500"
+                            onClick={() => removeComments(postID, _id)}
+                          >
+                            <i className="fa-solid fa-trash"></i>Delete
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {commentImg && (
@@ -215,6 +283,7 @@ function PostPage() {
           )}
         </div>
 
+        {/* add comment */}
         <div className="border-2 border-primaryLight rounded-md">
           <div className="flex p-5 w-full gap-2  ">
             <img
@@ -230,12 +299,17 @@ function PostPage() {
                 placeholder="Add Your Comment Here"
                 onChange={(e) => setcommentContent(e.target.value)}
                 value={commentContent}
+                ref={commentInput}
                 required
               ></textarea>
               {commentImage && (
                 <div className="w-32 h-fit m-2 relative rounded-md  ">
                   <img
-                    src={commentImage && URL.createObjectURL(commentImage)}
+                    src={
+                      typeof commentImage === "string"
+                        ? commentImage
+                        : URL.createObjectURL(commentImage)
+                    }
                     alt="uploadImage"
                     className="w-fit h-fit rounded-md"
                   />
@@ -259,20 +333,36 @@ function PostPage() {
                   />
                   <i
                     className="pr-2 fa-xl fa-solid fa-image cursor-pointer text-primaryDark"
-                    onClick={() => fileInput.current.click()}
+                    onClick={() => fileInput?.current.click()}
                   ></i>
                 </div>
 
-                <button
-                  className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
-                  onClick={() =>
-                    commentContent || commentImage
-                      ? newCommentHandler()
-                      : alert("You have to fill alteast one field")
-                  }
-                >
-                  Comment
-                </button>
+                <div className="flex  items-center justify-center px-2">
+                  {isEdit && (
+                    <button
+                      className="bg-red-500 text-secondaryDark w-24 p-2 border-2 rounded-md"
+                      onClick={() => {
+                        setcommentContent("");
+                        setcommentImage("");
+                        setIsEdit(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                  <button
+                    className="bg-primaryDark text-secondaryDark w-24 p-2 border-2 rounded-md"
+                    onClick={() =>
+                      commentContent || commentImage
+                        ? isEdit
+                          ? editPostCommentHandler()
+                          : newCommentHandler()
+                        : alert("You have to fill alteast one field")
+                    }
+                  >
+                    Comment
+                  </button>
+                </div>
               </div>
             </div>
           </div>

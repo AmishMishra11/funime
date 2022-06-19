@@ -64,6 +64,13 @@ export const postslice = createSlice({
     removeAllPostFromUserFeed: (state) => {
       state.userFeedPost = [];
     },
+
+    editPostCall: (state, action) => {
+      state.allPosts = action.payload;
+    },
+    deletePost: (state, action) => {
+      state.allPosts = [action.payload];
+    },
   },
 
   extraReducers: {
@@ -120,8 +127,10 @@ export const postslice = createSlice({
 
 export const {
   addNewPostToAllPost,
+  deletePost,
   likePost,
   dislikePost,
+  editPostCall,
   addNewPostToUserFeedPost,
   removeAllPostFromUserFeed,
   removePostFromUserFeed,

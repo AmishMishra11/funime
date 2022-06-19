@@ -1,4 +1,5 @@
 export { Bookmarks } from "./Bookmarks";
+export { EditPost } from "./EditPost";
 export { Explore } from "./Explore";
 export { Feed } from "./Feed";
 export { Navigation } from "./Navigation";
