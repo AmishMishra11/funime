@@ -51,7 +51,7 @@ function Singup() {
             <div className="dark:text-secondaryLight">Full Name:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
+                className="border-2 rounded border-primaryDark w-full p-1  dark:text-secondaryLight   dark:bg-nightInput"
                 type="text"
                 placeholder="Full Name"
                 id="full-name-id"
@@ -65,7 +65,7 @@ function Singup() {
             <div className="dark:text-secondaryLight">User Name:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
+                className="border-2 rounded border-primaryDark w-full p-1 dark:text-secondaryLight   dark:bg-nightInput"
                 type="text"
                 placeholder="UserName"
                 id="user-name-id"
@@ -79,7 +79,7 @@ function Singup() {
             <div className="dark:text-secondaryLight">Email:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
+                className="border-2 rounded border-primaryDark w-full p-1 dark:text-secondaryLight   dark:bg-nightInput"
                 type="test"
                 placeholder="name@company.com"
                 id="email-id"
@@ -93,7 +93,7 @@ function Singup() {
             <div className="dark:text-secondaryLight">Password:</div>
             <div>
               <input
-                className="border-2 rounded border-primaryDark w-full p-1 text-secondaryLight   dark:bg-nightInput"
+                className="border-2 rounded border-primaryDark w-full p-1 dark:text-secondaryLight dark:bg-nightInput"
                 type="password"
                 placeholder="••••••••"
                 id="password-id"

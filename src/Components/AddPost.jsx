@@ -16,6 +16,7 @@ function AddPost() {
   const newPostHandler = () => {
     addPost(
       {
+        comments: [],
         content: postContent,
         postImg: postImage && URL.createObjectURL(postImage),
         userImage: currentUserDetails.profileImg,
