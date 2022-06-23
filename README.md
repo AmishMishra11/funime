@@ -1,70 +1,95 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Funime
 
-## Available Scripts
+Social Media webapp made with react and redux toolkit.
 
-In the project directory, you can run:
+# Logo
 
-### `yarn start`
+![funime-logo](https://user-images.githubusercontent.com/76205249/175337648-e42dae3e-5f1d-4915-a422-e535c648cf54.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Demo
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+https://user-images.githubusercontent.com/76205249/175344484-b10c2cab-0e80-461b-b570-79d91cd7a4c0.mp4
 
-### `yarn build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This project is used by the following companies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Easy to use
+- Login 
+- Login as Guest
+- Signup
+- Show all Posts of followed users
+- Follow and unfollow user
+- Explore post and sort by popular, latest, oldest
+- Add Bookmarks
+- Like and Commnest
+- Create new Posts
+- Edit and Delete Post
+- Visit Profile
+- Edit Profile
+- Search users and posts
+- Responsive
+- Dark Mode
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Components
+1. Login and Signup
+2. Feed
+3. Explore
+4. Bookmarks
+5. Profile 
+6. Posts 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Screenshots
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![image](https://user-images.githubusercontent.com/76205249/175340241-53bb1551-08ae-4e82-89f7-5c52a2fbcc08.png)
 
-## Learn More
+![image](https://user-images.githubusercontent.com/76205249/175340373-3d661aee-0e8f-411f-90d8-580fb958f6e6.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![image](https://user-images.githubusercontent.com/76205249/175340463-596e2518-0948-4d83-9135-cff09a999b7d.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![image](https://user-images.githubusercontent.com/76205249/175340506-a9e2ebf0-dece-4b73-a9cc-a1e8a844fc8b.png)
 
-### Code Splitting
+![image](https://user-images.githubusercontent.com/76205249/175340566-e97a6b06-b097-48f1-b9f6-6d0c9c7cf8b4.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![image](https://user-images.githubusercontent.com/76205249/175340640-36b7008d-d53c-491c-8d73-1b22f744c9cf.png)
 
-### Analyzing the Bundle Size
+![image](https://user-images.githubusercontent.com/76205249/175340683-c13cc931-3341-4deb-92a0-037312b54c6c.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![image](https://user-images.githubusercontent.com/76205249/175340726-eaafae63-ebaa-42f7-95d3-d9064f28ec0e.png)
 
-### Making a Progressive Web App
+![image](https://user-images.githubusercontent.com/76205249/175340799-f8f1deb2-3e3e-4b04-a17e-b3a2f7a9e2ff.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![image](https://user-images.githubusercontent.com/76205249/175340871-66b236e6-f49a-4043-8622-d6c66dc4c81c.png)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Visit
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To visit site use this link
 
-### `yarn build` fails to minify
+- [Live Link](https://funime-media.netlify.app)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+## Authors
+
+- [AmishMishra11](https://github.com/AmishMishra11)
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at amishmishra11@gmail.com
+
+
+
+## 🔗 Links
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://amishmishra.netlify.app)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/amish-mishra-98b43221a/)
+[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/The_Scarcastic1)
+
