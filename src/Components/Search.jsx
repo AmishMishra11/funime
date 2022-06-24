@@ -128,7 +128,7 @@ function Search() {
                         (item) => item._id === _id
                       ) ? (
                         <button
-                          className="py-1 bg-secondaryLight text-primaryDark  border-2 border-primaryDark rounded-md w-20 md:w-24"
+                          className="py-1 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md w-24"
                           onClick={() => {
                             dispatch(removePostFromUserFeed(_id));
                             dispatch(unfollowCall(_id));
