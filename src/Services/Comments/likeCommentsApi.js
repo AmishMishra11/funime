@@ -1,6 +1,7 @@
 import axios from "axios";
+import { likeCommentCall } from "../../Redux/Features/postSlice";
 
-export const likeComments = async (postID, id) => {
+export const likeComments = async (postID, id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -9,8 +10,7 @@ export const likeComments = async (postID, id) => {
       url: `/api/comments/upvote/${postID}/${id}`,
       headers: { authorization: encodedToken },
     });
-
-    console.log(res.data.comments);
+    dispatch(likeCommentCall(res.data.comments));
   } catch (e) {
     console.log("error occured: ", e);
   }

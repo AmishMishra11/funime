@@ -14,7 +14,7 @@ import { removeBookmarks } from "../../Services/Bookmark/removeBookmarksApi";
 const initialState = {
   allUsers: [],
   allUserStatus: "idle",
-  error: null,
+
   currentUserDetails: localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
     : {},

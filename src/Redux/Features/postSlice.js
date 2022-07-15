@@ -15,6 +15,7 @@ const initialState = {
   userFeedPost: [],
   singlePostStatus: "idle",
   singlePost: {},
+  comments: [],
 };
 
 export const loadAllPostsCall = createAsyncThunk(
@@ -47,6 +48,10 @@ export const postslice = createSlice({
     likePost: (state, action) => {
       state.allPosts = action.payload;
     },
+
+    likeHandler: (state, action) => {
+      state.singlePost = action.payload;
+    },
     dislikePost: (state, action) => {
       state.allPosts = action.payload;
     },
@@ -70,6 +75,37 @@ export const postslice = createSlice({
     },
     deletePost: (state, action) => {
       state.allPosts = [action.payload];
+    },
+
+    getCommentCall: (state, action) => {
+      state.comments = action.payload;
+    },
+
+    addCommentCall: (state, action) => {
+      state.comments = action.payload;
+    },
+
+    commentCallHandler: (state, action) => {
+      state.singlePost = {
+        ...state.singlePost,
+        comments: action.payload,
+      };
+    },
+
+    removeCommentCall: (state, action) => {
+      state.comments = action.payload;
+    },
+
+    likeCommentCall: (state, action) => {
+      state.comments = action.payload;
+    },
+
+    dislikeCommentCall: (state, action) => {
+      state.comments = action.payload;
+    },
+
+    editCommentCall: (state, action) => {
+      state.comments = action.payload;
     },
   },
 
@@ -129,11 +165,19 @@ export const {
   addNewPostToAllPost,
   deletePost,
   likePost,
+  likeHandler,
   dislikePost,
   editPostCall,
   addNewPostToUserFeedPost,
   removeAllPostFromUserFeed,
   removePostFromUserFeed,
+  getCommentCall,
+  addCommentCall,
+  commentCallHandler,
+  removeCommentCall,
+  likeCommentCall,
+  dislikeCommentCall,
+  editCommentCall,
 } = postslice.actions;
 
 export default postslice.reducer;

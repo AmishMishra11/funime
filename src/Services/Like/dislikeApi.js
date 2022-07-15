@@ -1,5 +1,5 @@
 import axios from "axios";
-import { dislikePost } from "../../Redux/Features/postSlice";
+import { likeHandler, dislikePost } from "../../Redux/Features/postSlice";
 
 export const dislike = async (id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
@@ -9,6 +9,9 @@ export const dislike = async (id, dispatch) => {
       headers: { authorization: encodedToken },
       url: `/api/posts/dislike/${id}`,
     });
+    const myPost = res.data.posts.find((item) => item._id === id);
+
+    dispatch(likeHandler(myPost));
 
     dispatch(dislikePost(res.data.posts));
   } catch (e) {

@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { formatDate } from "../utils/authUtils";
 
 /**
@@ -8,7 +7,7 @@ import { formatDate } from "../utils/authUtils";
 
 export const posts = [
   {
-    _id: uuid(),
+    _id: "000",
     content: "Sukuna",
     likes: {
       likeCount: 0,
@@ -26,7 +25,7 @@ export const posts = [
     comments: [],
   },
   {
-    _id: uuid(),
+    _id: "001",
     content: "Goku",
     likes: {
       likeCount: 5,
@@ -44,7 +43,7 @@ export const posts = [
     comments: [],
   },
   {
-    _id: uuid(),
+    _id: "002",
     content: "Solo Leveling",
     likes: {
       likeCount: 2,
@@ -63,7 +62,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "003",
     content: "💕",
     likes: {
       likeCount: 0,
@@ -82,7 +81,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "004",
     content: "Goat",
     likes: {
       likeCount: 0,
@@ -101,7 +100,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "005",
     content: "✨Bukkorosu✨",
     likes: {
       likeCount: 0,
@@ -121,7 +120,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "006",
     content: "Naruto and Jaraya",
     likes: {
       likeCount: 0,
@@ -139,7 +138,7 @@ export const posts = [
     comments: [],
   },
   {
-    _id: uuid(),
+    _id: "007",
     content: "Naruto and Hinata",
     likes: {
       likeCount: 0,
@@ -159,7 +158,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "008",
     content: "Demon Slayer",
     likes: {
       likeCount: 0,
@@ -179,7 +178,7 @@ export const posts = [
   },
 
   {
-    _id: uuid(),
+    _id: "009",
     content: "nezuko",
     likes: {
       likeCount: 0,

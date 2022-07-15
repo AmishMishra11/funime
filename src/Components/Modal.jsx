@@ -46,7 +46,7 @@ function Modal({ setIsModal, isModal, user }) {
     return () => {
       document.removeEventListener("mousedown", checkIfClickedOutside);
     };
-  }, [isModal]);
+  }, [isModal, setIsModal]);
 
   return (
     <div
@@ -144,7 +144,7 @@ function Modal({ setIsModal, isModal, user }) {
       </div>
 
       <button
-        className="bg-primaryDark p-2 w-full rounded-lg"
+        className="bg-primaryDark p-2 w-full rounded-lg text-secondaryDark"
         onClick={() => {
           editFullName
             ? handleEditProfile()

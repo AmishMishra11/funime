@@ -38,7 +38,7 @@ function PeopleProfile() {
   useEffect(() => {
     dispatch(loadUserCall(peopleprofileID));
     dispatch(loadUserPostCall(username));
-  }, [dispatch, peopleprofileID, user, username]);
+  }, [dispatch, peopleprofileID, username]);
 
   const displayUserPosts = [...userPosts]?.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)

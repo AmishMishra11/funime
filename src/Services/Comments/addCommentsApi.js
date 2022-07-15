@@ -1,6 +1,10 @@
 import axios from "axios";
+import {
+  addCommentCall,
+  commentCallHandler,
+} from "../../Redux/Features/postSlice";
 
-export const addComments = async (commentData, id) => {
+export const addComments = async (commentData, id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -11,7 +15,8 @@ export const addComments = async (commentData, id) => {
       data: { commentData: commentData },
     });
 
-    console.log(res.data.comments);
+    dispatch(commentCallHandler(res.data.comments));
+    dispatch(addCommentCall(res.data.comments));
   } catch (e) {
     console.log("error occured: ", e);
   }

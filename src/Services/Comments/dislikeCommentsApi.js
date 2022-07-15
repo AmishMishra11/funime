@@ -1,6 +1,7 @@
 import axios from "axios";
+import { dislikeCommentCall } from "../../Redux/Features/postSlice";
 
-export const dislikeComments = async (postID, id) => {
+export const dislikeComments = async (postID, id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -9,8 +10,7 @@ export const dislikeComments = async (postID, id) => {
       url: `/api/comments/downvote/${postID}/${id}`,
       headers: { authorization: encodedToken },
     });
-
-    console.log(res.data.comments);
+    dispatch(dislikeCommentCall(res.data.comments));
   } catch (e) {
     console.log("error occured: ", e);
   }

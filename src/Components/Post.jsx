@@ -68,7 +68,9 @@ function Post({ item }) {
           />
 
           <div className="flex flex-col items-start justify-center ">
-            <div>{username}</div>
+            <div className="text-primaryDark font-medium text-lg">
+              {username}
+            </div>
             <div>{new Date(updatedAt)?.toDateString()}</div>
           </div>
         </div>

@@ -32,7 +32,7 @@ function Profile() {
   }, [dispatch, currentUserDetails, allPosts]);
 
   const displayUserPosts = [...userPosts]?.sort(
-    (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
   return (

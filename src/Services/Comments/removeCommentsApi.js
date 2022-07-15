@@ -1,6 +1,10 @@
 import axios from "axios";
+import {
+  commentCallHandler,
+  removeCommentCall,
+} from "../../Redux/Features/postSlice";
 
-export const removeComments = async (PostId, commentId) => {
+export const removeComments = async (PostId, commentId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -10,7 +14,8 @@ export const removeComments = async (PostId, commentId) => {
       headers: { authorization: encodedToken },
     });
 
-    console.log(res.data.comments);
+    dispatch(commentCallHandler(res.data.comments));
+    dispatch(removeCommentCall(res.data.comments));
   } catch (e) {
     console.log("error occured: ", e);
   }
