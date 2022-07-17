@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const getAllPosts = async () => {
   try {
@@ -7,8 +8,9 @@ export const getAllPosts = async () => {
       url: "/api/posts",
     });
 
-    return res.data.posts;
+    if (res.status === 200) return res.data.posts;
   } catch (e) {
+    toast.error("Failed to load Posts");
     console.log("error occured: ", e);
   }
 };

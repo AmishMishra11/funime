@@ -30,7 +30,6 @@ function Explore() {
   const displayPopular = [...allPosts]?.sort(
     (a, b) => b.likes.likeCount - a.likes.likeCount
   );
-
   let showExplore = [];
 
   if (filter === "Popular") {

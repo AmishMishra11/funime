@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { userLogin } from "../../Redux/Features/authSlice";
 import { setCurrentUserDetails } from "../../Redux/Features/userSlice";
@@ -23,14 +24,16 @@ export const signinUser = async (
       },
     });
 
-    localStorage.setItem("token", res.data.encodedToken);
-
-    localStorage.setItem("userDetails", JSON.stringify(res.data.createdUser));
-
-    dispatch(userLogin());
-    dispatch(setCurrentUserDetails(res.data.createdUser));
-    navigate("/home");
+    if (res.status === 201) {
+      localStorage.setItem("token", res.data.encodedToken);
+      localStorage.setItem("userDetails", JSON.stringify(res.data.createdUser));
+      dispatch(userLogin());
+      dispatch(setCurrentUserDetails(res.data.createdUser));
+      navigate("/home");
+    }
   } catch (e) {
     console.log("error occured: ", e);
+
+    toast.error("Signup Failed");
   }
 };

@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { dislikePostCall, likePostCall } from "../Redux/Features/postSlice";
 import {
   addBookmarkCall,
   removeBookmarkCall,
 } from "../Redux/Features/userSlice";
-import { dislike } from "../Services/Like/dislikeApi";
-import { like } from "../Services/Like/likeApi";
+
 import { removePost } from "../Services/Post/removePostApi";
 
 function Post({ item }) {
@@ -122,14 +122,14 @@ function Post({ item }) {
         ) ? (
           <i
             className="fa-lg fa-solid fa-heart  cursor-pointer  text-primaryDark "
-            onClick={() => dislike(_id, dispatch)}
+            onClick={() => dispatch(dislikePostCall(_id))}
           >
             <span className="font-normal pl-2">{likes?.likeCount}</span>
           </i>
         ) : (
           <i
             className="fa-lg fa-regular fa-heart  cursor-pointer  text-primaryDark"
-            onClick={() => like(_id, dispatch)}
+            onClick={() => dispatch(likePostCall(_id))}
           >
             <span className="pl-2">{likes?.likeCount}</span>
           </i>

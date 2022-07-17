@@ -6,6 +6,11 @@ import { getAllPosts } from "../../Services/Post/getAllPostApi";
 import { getPosts } from "../../Services/Post/getPostApi";
 import { getUserPosts } from "../../Services/Post/getUserPostApi";
 
+import axios from "axios";
+import { toast } from "react-toastify";
+import { like } from "../../Services/Like/likeApi";
+import { dislike } from "../../Services/Like/dislikeApi";
+
 const initialState = {
   allPostsStatus: "idle",
   allPosts: [],
@@ -18,9 +23,26 @@ const initialState = {
   comments: [],
 };
 
+// export const loadAllPostsCall = createAsyncThunk("posts/loadAllPostsCall", () =>
+//   getAllPosts()
+// );
+
 export const loadAllPostsCall = createAsyncThunk(
   "posts/loadAllPostsCall",
-  getAllPosts
+  async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: "/api/posts",
+      });
+
+      if (res.status === 200) return res.data.posts;
+    } catch (e) {
+      toast.error("Failed to load Posts");
+      console.log("error occured: ", e);
+      return [];
+    }
+  }
 );
 
 export const loadPostCall = createAsyncThunk("posts/loadPostCall", (id) =>
@@ -37,22 +59,19 @@ export const loadFollowedUserPostsCall = createAsyncThunk(
   (userName) => getUserPosts(userName)
 );
 
+export const likePostCall = createAsyncThunk("posts/likePostCall", (id) =>
+  like(id)
+);
+
+export const dislikePostCall = createAsyncThunk("posts/dislikePostCall", (id) =>
+  dislike(id)
+);
+
 export const postslice = createSlice({
   name: "posts",
   initialState,
   reducers: {
     addNewPostToAllPost: (state, action) => {
-      state.allPosts = action.payload;
-    },
-
-    likePost: (state, action) => {
-      state.allPosts = action.payload;
-    },
-
-    likeHandler: (state, action) => {
-      state.singlePost = action.payload;
-    },
-    dislikePost: (state, action) => {
       state.allPosts = action.payload;
     },
 
@@ -119,6 +138,11 @@ export const postslice = createSlice({
       state.allPosts = action.payload;
     },
 
+    [loadAllPostsCall.rejected]: (state) => {
+      state.allPostsStatus = "failed";
+      state.allPosts = [];
+    },
+
     [loadPostCall.pending]: (state) => {
       state.singlePostStatus = "loading";
     },
@@ -158,15 +182,22 @@ export const postslice = createSlice({
 
       state.userFeedPost = newPostValue;
     },
+
+    [likePostCall.fulfilled]: (state, action) => {
+      state.allPosts = action.payload.allPosts;
+      state.singlePost = action.payload.myPost;
+    },
+
+    [dislikePostCall.fulfilled]: (state, action) => {
+      state.allPosts = action.payload.allPosts;
+      state.singlePost = action.payload.myPost;
+    },
   },
 });
 
 export const {
   addNewPostToAllPost,
   deletePost,
-  likePost,
-  likeHandler,
-  dislikePost,
   editPostCall,
   addNewPostToUserFeedPost,
   removeAllPostFromUserFeed,

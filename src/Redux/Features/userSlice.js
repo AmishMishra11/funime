@@ -11,6 +11,8 @@ import { addBookmarks } from "../../Services/Bookmark/addBookmarksApi";
 import { getBookmarks } from "../../Services/Bookmark/getBookmarksApi";
 import { removeBookmarks } from "../../Services/Bookmark/removeBookmarksApi";
 
+import axios from "axios";
+import { toast } from "react-toastify";
 const initialState = {
   allUsers: [],
   allUserStatus: "idle",
@@ -27,18 +29,87 @@ const initialState = {
   bookmarks: [],
 };
 
+// export const loadAllUsersCall = createAsyncThunk(
+//   "users/loadAllUsersCall",
+//   getAllUsers
+// );
+
 export const loadAllUsersCall = createAsyncThunk(
   "users/loadAllUsersCall",
-  getAllUsers
+  async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        url: "/api/users",
+      });
+
+      if (res.status === 200) return res.data.users;
+    } catch (e) {
+      toast.error("Failed to load Users");
+      console.log("error occured: ", e);
+      return [];
+    }
+  }
 );
 
-export const loadUserCall = createAsyncThunk("users/loadUesrCall", (id) =>
-  getUser(id)
+// export const loadUserCall = createAsyncThunk("users/loadUesrCall", (id) =>
+//   getUser(id)
+// );
+
+export const loadUserCall = createAsyncThunk(
+  "users/loadUesrCall",
+  async (id, { rejectWithValue, getState }) => {
+    const {
+      users: { user },
+    } = getState();
+
+    try {
+      const res = await axios({
+        method: "GET",
+        url: `/api/users/${id}`,
+      });
+
+      if (res.status === 200) return res.data.user;
+    } catch (e) {
+      toast.error("Failed to load user");
+      console.log("error occured: ", e);
+      return rejectWithValue(user);
+    }
+  }
 );
+
+// export const editUserCall = createAsyncThunk(
+//   "users/editUserCall",
+//   (editUesrData) => editUser(editUesrData)
+// );
 
 export const editUserCall = createAsyncThunk(
   "users/editUserCall",
-  (editUesrData) => editUser(editUesrData)
+  async (editUesrData, { rejectWithValue, getState }) => {
+    const {
+      users: { currentUserDetails },
+    } = getState();
+
+    const encodedToken = localStorage.getItem("token");
+
+    try {
+      const res = await axios({
+        method: "POST",
+        url: "/api/users/edit",
+        headers: { authorization: encodedToken },
+        data: { userData: editUesrData },
+      });
+
+      if (res.status === 201) {
+        localStorage.setItem("userDetails", JSON.stringify(res.data.user));
+        return res.data.user;
+      }
+    } catch (e) {
+      toast.error("Failed to follow User");
+      console.log("error occured: ", e);
+      return rejectWithValue(currentUserDetails);
+    }
+  }
 );
 
 export const addBookmarkCall = createAsyncThunk("users/addBookmarkCall", (id) =>
@@ -55,12 +126,64 @@ export const getBookmarkCall = createAsyncThunk(
   getBookmarks
 );
 
-export const followCall = createAsyncThunk("users/followCall", (id) =>
-  follow(id)
+// export const followCall = createAsyncThunk("users/followCall", (id) =>
+//   follow(id)
+// );
+
+export const followCall = createAsyncThunk(
+  "users/followCall",
+  async (_id, { rejectWithValue, getState }) => {
+    const {
+      users: { currentUserDetails },
+    } = getState();
+
+    const encodedToken = localStorage.getItem("token");
+
+    try {
+      const res = await axios({
+        method: "POST",
+        headers: { authorization: encodedToken },
+        url: `/api/users/follow/${_id}`,
+      });
+      if (res.status === 200) {
+        return res.data.user;
+      }
+    } catch (e) {
+      toast.error("Failed to follow User");
+      console.log("error occured: ", e);
+      return rejectWithValue(currentUserDetails);
+    }
+  }
 );
 
-export const unfollowCall = createAsyncThunk("users/unfollowCall", (id) =>
-  unfollow(id)
+// export const unfollowCall = createAsyncThunk("users/unfollowCall", (id) =>
+//   unfollow(id)
+// );
+
+export const unfollowCall = createAsyncThunk(
+  "users/unfollowCall",
+  async (_id, { rejectWithValue, getState }) => {
+    const {
+      users: { currentUserDetails },
+    } = getState();
+
+    const encodedToken = localStorage.getItem("token");
+
+    try {
+      const res = await axios({
+        method: "POST",
+        headers: { authorization: encodedToken },
+        url: `/api/users/unfollow/${_id}`,
+      });
+      if (res.status === 200) {
+        return res.data.user;
+      }
+    } catch (e) {
+      toast.error("Failed to follow User");
+      console.log("error occured: ", e);
+      return rejectWithValue(currentUserDetails);
+    }
+  }
 );
 
 export const userSlice = createSlice({
@@ -86,6 +209,11 @@ export const userSlice = createSlice({
       state.allUsers = action.payload;
     },
 
+    [loadAllUsersCall.rejected]: (state) => {
+      state.allUserStatus = "failed";
+      state.allUsers = [];
+    },
+
     [loadUserCall.pending]: (state) => {
       state.userStatus = "loading";
     },
@@ -95,12 +223,22 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
 
+    [loadUserCall.rejected]: (state, action) => {
+      state.userStatus = "failed";
+      state.user = action.payload;
+    },
+
     [editUserCall.pending]: (state) => {
       state.allUserStatus = "loading";
     },
 
     [editUserCall.fulfilled]: (state, action) => {
       state.allUserStatus = "fulfilled";
+      state.currentUserDetails = action.payload;
+    },
+
+    [editUserCall.rejected]: (state, action) => {
+      state.allUserStatus = "failed";
       state.currentUserDetails = action.payload;
     },
 
@@ -142,6 +280,11 @@ export const userSlice = createSlice({
       state.currentUserDetails = action.payload;
     },
 
+    [followCall.rejected]: (state, action) => {
+      state.currentUserDetails = action.payload;
+      state.followStatus = "failed";
+    },
+
     [unfollowCall.pending]: (state) => {
       state.followStatus = "loading";
     },
@@ -149,6 +292,11 @@ export const userSlice = createSlice({
     [unfollowCall.fulfilled]: (state, action) => {
       state.followStatus = "fulfilled";
       state.currentUserDetails = action.payload;
+    },
+
+    [unfollowCall.rejected]: (state, action) => {
+      state.currentUserDetails = action.payload;
+      state.followStatus = "failed";
     },
   },
 });

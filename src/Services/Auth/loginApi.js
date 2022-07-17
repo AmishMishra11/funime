@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { userLogin } from "../../Redux/Features/authSlice";
 import { setCurrentUserDetails } from "../../Redux/Features/userSlice";
@@ -16,14 +17,15 @@ export const loginUser = async (
       data: { username: tempUesrName, password: tempPassword },
     });
 
-    localStorage.setItem("token", res.data.encodedToken);
-
-    localStorage.setItem("userDetails", JSON.stringify(res.data.foundUser));
-
-    dispatch(userLogin());
-    dispatch(setCurrentUserDetails(res.data.foundUser));
-    navigate("/home");
+    if (res.status === 200) {
+      localStorage.setItem("token", res.data.encodedToken);
+      localStorage.setItem("userDetails", JSON.stringify(res.data.foundUser));
+      dispatch(userLogin());
+      dispatch(setCurrentUserDetails(res.data.foundUser));
+      navigate("/home");
+    }
   } catch (e) {
     console.log("error occured: ", e);
+    toast.error("Login Failed");
   }
 };

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const addBookmarks = async (id) => {
   const encodedToken = localStorage.getItem("token");
@@ -9,8 +10,9 @@ export const addBookmarks = async (id) => {
       headers: { authorization: encodedToken },
     });
 
-    return res.data.bookmarks;
+    if (res.status === 200) return res.data.bookmarks;
   } catch (e) {
+    toast.error("Failed to add Bookmark");
     console.log("error occured: ", e);
   }
 };

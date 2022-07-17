@@ -70,7 +70,7 @@ function Modal({ setIsModal, isModal, user }) {
           className="h-36  sm:h-40 md:h-48 w-full  rounded-lg"
         />
         <input
-          className="hidden "
+          className="hidden"
           type="file"
           onChange={(e) => setEditBackground(e.target.files[0])}
           accept="image/*"

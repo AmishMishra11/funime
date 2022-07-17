@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   addCommentCall,
   commentCallHandler,
@@ -15,9 +16,12 @@ export const addComments = async (commentData, id, dispatch) => {
       data: { commentData: commentData },
     });
 
-    dispatch(commentCallHandler(res.data.comments));
-    dispatch(addCommentCall(res.data.comments));
+    if (res.status === 201) {
+      dispatch(commentCallHandler(res.data.comments));
+      dispatch(addCommentCall(res.data.comments));
+    }
   } catch (e) {
+    toast.error("Failed to add comments");
     console.log("error occured: ", e);
   }
 };
