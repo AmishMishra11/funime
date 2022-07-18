@@ -13,7 +13,7 @@ function Explore() {
     if (allPostsStatus === "idle") {
       dispatch(loadAllPostsCall());
     }
-  }, [dispatch, allPostsStatus]);
+  }, [allPostsStatus]);
 
   const [filter, setFilter] = useState("Popular");
 

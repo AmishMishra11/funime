@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getAllPosts } from "../../Services/Post/getAllPostApi";
 import { getPosts } from "../../Services/Post/getPostApi";
 import { getUserPosts } from "../../Services/Post/getUserPostApi";
 
@@ -22,10 +21,6 @@ const initialState = {
   singlePost: {},
   comments: [],
 };
-
-// export const loadAllPostsCall = createAsyncThunk("posts/loadAllPostsCall", () =>
-//   getAllPosts()
-// );
 
 export const loadAllPostsCall = createAsyncThunk(
   "posts/loadAllPostsCall",
@@ -126,6 +121,10 @@ export const postslice = createSlice({
     editCommentCall: (state, action) => {
       state.comments = action.payload;
     },
+
+    editProfileImageOfPost: (state, action) => {
+      state.allPosts = action.payload;
+    },
   },
 
   extraReducers: {
@@ -209,6 +208,7 @@ export const {
   likeCommentCall,
   dislikeCommentCall,
   editCommentCall,
+  editProfileImageOfPost,
 } = postslice.actions;
 
 export default postslice.reducer;

@@ -8,7 +8,6 @@ export const getUser = async (id) => {
       url: `/api/users/${id}`,
     });
 
-    console.log(res);
     if (res.status === 200) return res.data.user;
   } catch (e) {
     toast.error("Failed to load user");

@@ -58,7 +58,11 @@ export const editUserHandler = function (schema, request) {
     const { userData } = JSON.parse(request.requestBody);
     user = { ...user, ...userData, updatedAt: formatDate() };
     this.db.users.update({ _id: user._id }, user);
-    return new Response(201, {}, { user });
+
+    const { fullName, profileImg: userImage } = user;
+    this.db.posts.update({ userId: user._id }, { fullName, userImage });
+
+    return new Response(201, {}, { user, posts: this.db.posts });
   } catch (error) {
     return new Response(
       500,

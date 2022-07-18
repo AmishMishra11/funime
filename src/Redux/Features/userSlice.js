@@ -1,15 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { getAllUsers } from "../../Services/User/getAllUsersApi";
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { follow } from "../../Services/Follow/followApi";
-import { unfollow } from "../../Services/Follow/unfollowApi";
-import { editUser } from "../../Services/User/editUserApi";
-import { getUser } from "../../Services/User/getUserApi";
+
 import { addBookmarks } from "../../Services/Bookmark/addBookmarksApi";
 import { getBookmarks } from "../../Services/Bookmark/getBookmarksApi";
 import { removeBookmarks } from "../../Services/Bookmark/removeBookmarksApi";
+
+import { editProfileImageOfPost } from "./postSlice";
 
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -29,11 +26,6 @@ const initialState = {
   bookmarks: [],
 };
 
-// export const loadAllUsersCall = createAsyncThunk(
-//   "users/loadAllUsersCall",
-//   getAllUsers
-// );
-
 export const loadAllUsersCall = createAsyncThunk(
   "users/loadAllUsersCall",
   async () => {
@@ -51,10 +43,6 @@ export const loadAllUsersCall = createAsyncThunk(
     }
   }
 );
-
-// export const loadUserCall = createAsyncThunk("users/loadUesrCall", (id) =>
-//   getUser(id)
-// );
 
 export const loadUserCall = createAsyncThunk(
   "users/loadUesrCall",
@@ -78,14 +66,9 @@ export const loadUserCall = createAsyncThunk(
   }
 );
 
-// export const editUserCall = createAsyncThunk(
-//   "users/editUserCall",
-//   (editUesrData) => editUser(editUesrData)
-// );
-
 export const editUserCall = createAsyncThunk(
   "users/editUserCall",
-  async (editUesrData, { rejectWithValue, getState }) => {
+  async (editUesrData, { rejectWithValue, getState, dispatch }) => {
     const {
       users: { currentUserDetails },
     } = getState();
@@ -99,6 +82,8 @@ export const editUserCall = createAsyncThunk(
         headers: { authorization: encodedToken },
         data: { userData: editUesrData },
       });
+
+      dispatch(editProfileImageOfPost(res.data.posts));
 
       if (res.status === 201) {
         localStorage.setItem("userDetails", JSON.stringify(res.data.user));
@@ -126,10 +111,6 @@ export const getBookmarkCall = createAsyncThunk(
   getBookmarks
 );
 
-// export const followCall = createAsyncThunk("users/followCall", (id) =>
-//   follow(id)
-// );
-
 export const followCall = createAsyncThunk(
   "users/followCall",
   async (_id, { rejectWithValue, getState }) => {
@@ -155,10 +136,6 @@ export const followCall = createAsyncThunk(
     }
   }
 );
-
-// export const unfollowCall = createAsyncThunk("users/unfollowCall", (id) =>
-//   unfollow(id)
-// );
 
 export const unfollowCall = createAsyncThunk(
   "users/unfollowCall",
