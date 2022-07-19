@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const unfollow = async (id) => {
   const encodedToken = localStorage.getItem("token");
   try {
@@ -9,8 +9,9 @@ export const unfollow = async (id) => {
       url: `/api/users/unfollow/${id}`,
     });
 
-    return res.data.user;
+    if (res.status === 200) return res.data.user;
   } catch (e) {
+    toast.error("Failed to unfillow user");
     console.log("error occured: ", e);
   }
 };

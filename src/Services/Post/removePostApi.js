@@ -3,6 +3,7 @@ import {
   deletePost,
   removePostFromUserFeed,
 } from "../../Redux/Features/postSlice";
+import { toast } from "react-toastify";
 
 export const removePost = async (PostId, userId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
@@ -13,10 +14,12 @@ export const removePost = async (PostId, userId, dispatch) => {
       url: `/api/posts/${PostId}`,
       headers: { authorization: encodedToken },
     });
-
-    dispatch(deletePost(res.data.posts));
-    dispatch(removePostFromUserFeed(userId));
+    if (res.status === 201) {
+      dispatch(deletePost(res.data.posts));
+      dispatch(removePostFromUserFeed(userId));
+    }
   } catch (e) {
+    toast.error("Failed to delete Post");
     console.log("error occured: ", e);
   }
 };

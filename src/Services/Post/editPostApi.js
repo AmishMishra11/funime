@@ -1,5 +1,6 @@
 import axios from "axios";
 import { editPostCall } from "../../Redux/Features/postSlice";
+import { toast } from "react-toastify";
 
 export const editPost = async (postData, PostId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
@@ -12,8 +13,9 @@ export const editPost = async (postData, PostId, dispatch) => {
       data: { postData: postData },
     });
 
-    dispatch(editPostCall(res.data.posts));
+    if (res.status === 201) dispatch(editPostCall(res.data.posts));
   } catch (e) {
+    toast.error("Failed to edit Post");
     console.log("error occured: ", e);
   }
 };

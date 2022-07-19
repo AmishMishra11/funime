@@ -1,6 +1,11 @@
 import axios from "axios";
+import {
+  commentCallHandler,
+  removeCommentCall,
+} from "../../Redux/Features/postSlice";
+import { toast } from "react-toastify";
 
-export const removeComments = async (PostId, commentId) => {
+export const removeComments = async (PostId, commentId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -10,8 +15,12 @@ export const removeComments = async (PostId, commentId) => {
       headers: { authorization: encodedToken },
     });
 
-    console.log(res.data.comments);
+    if (res.status === 201) {
+      dispatch(commentCallHandler(res.data.comments));
+      dispatch(removeCommentCall(res.data.comments));
+    }
   } catch (e) {
+    toast.error("Failed to delete Comment");
     console.log("error occured: ", e);
   }
 };

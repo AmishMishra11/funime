@@ -14,9 +14,8 @@ function PopularUsers() {
 
   const dispatch = useDispatch();
 
-  const { currentUserDetails, allUsers, allUserStatus } = useSelector(
-    (store) => store.users
-  );
+  const { currentUserDetails, allUsers, allUserStatus, followStatus } =
+    useSelector((store) => store.users);
 
   useEffect(() => {
     if (allUserStatus === "idle") {
@@ -26,13 +25,17 @@ function PopularUsers() {
 
   const currentUserId = currentUserDetails._id;
 
-  const users = allUsers.filter((user) => user._id !== currentUserId);
+  const users = allUsers?.filter((user) => user._id !== currentUserId);
 
   const sortedUsers = [...users]?.sort(
-    (a, b) => b.followers.length - a.followers.length
+    (a, b) => b?.followers?.length - a?.followers?.length
   );
 
   const PopularUsers = sortedUsers?.slice(0, 4);
+
+  const unfollowHandler = (id) => {
+    followStatus === "fulfilled" && dispatch(removePostFromUserFeed(id));
+  };
 
   return allUserStatus === "loading" ? (
     <p>Loading</p>
@@ -64,8 +67,9 @@ function PopularUsers() {
             <button
               className="py-1 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md w-24"
               onClick={() => {
-                dispatch(removePostFromUserFeed(_id));
                 dispatch(unfollowCall(_id));
+
+                unfollowHandler(_id);
               }}
             >
               Following

@@ -1,6 +1,9 @@
 import axios from "axios";
+import { likeCommentCall } from "../../Redux/Features/postSlice";
 
-export const likeComments = async (postID, id) => {
+import { toast } from "react-toastify";
+
+export const likeComments = async (postID, id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -10,8 +13,9 @@ export const likeComments = async (postID, id) => {
       headers: { authorization: encodedToken },
     });
 
-    console.log(res.data.comments);
+    if (res.status === 201) dispatch(likeCommentCall(res.data.comments));
   } catch (e) {
+    toast.error("Try Again Later");
     console.log("error occured: ", e);
   }
 };

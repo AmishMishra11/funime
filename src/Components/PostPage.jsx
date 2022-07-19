@@ -1,46 +1,29 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import { loadPostCall } from "../Redux/Features/postSlice";
-
-import { dislike } from "../Services/Like/dislikeApi";
-import { like } from "../Services/Like/likeApi";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
-
-import {
-  addBookmarkCall,
-  removeBookmarkCall,
-} from "../Redux/Features/userSlice";
+import { loadPostCall } from "../Redux/Features/postSlice";
 import { addComments } from "../Services/Comments/addCommentsApi";
-import { likeComments } from "../Services/Comments/likeCommentsApi";
-import { dislikeComments } from "../Services/Comments/dislikeCommentsApi";
-import { removeComments } from "../Services/Comments/removeCommentsApi";
 import { editComments } from "../Services/Comments/editCommentsApi";
+import { getComments } from "../Services/Comments/getCommentsApi";
+import { Post } from "./Post";
+import { CommentSection } from "./CommentSection";
 
 function PostPage() {
-  const navigate = useNavigate();
   const { postID } = useParams();
 
   const { currentUserDetails } = useSelector((store) => store.users);
 
-  const { singlePost } = useSelector((store) => store.posts);
+  const { singlePost, comments } = useSelector((store) => store.posts);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadPostCall(postID));
-  }, [dispatch, postID, singlePost]);
+  }, []);
 
-  const {
-    userImage,
-    username,
-    userId,
-    updatedAt,
-    postImg,
-    content,
-    likes,
-    comments,
-    bookmarks,
-  } = singlePost;
+  useEffect(() => {
+    getComments(postID, dispatch);
+  }, []);
 
   const fileInput = useRef();
 
@@ -62,8 +45,6 @@ function PostPage() {
     setcommentContent("");
     setcommentImage("");
   };
-
-  const [options, setOptions] = useState(false);
 
   const commentInput = useRef();
 
@@ -96,7 +77,8 @@ function PostPage() {
         commentUserId: currentUserDetails._id,
       },
       postID,
-      commnetId
+      commnetId,
+      dispatch
     );
 
     setcommentContent("");
@@ -104,200 +86,26 @@ function PostPage() {
     setIsEdit(false);
   };
 
-  const ref = useRef();
-  useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (options && ref.current && !ref.current.contains(e.target)) {
-        setOptions(false);
-      }
-    };
-    document.addEventListener("mousedown", checkIfClickedOutside);
-    return () => {
-      document.removeEventListener("mousedown", checkIfClickedOutside);
-    };
-  }, [options]);
-
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight  overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="p-5">
         {/* show post */}
         {singlePost ? (
-          <div className="flex flex-col items-stretch justify-between  w-full h-full p-5 mb-4  min-h-fit border-2 rounded-md shadow-sm bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark dark:border-nightInput">
-            <div
-              className="flex items-center justify-start"
-              onClick={() => {
-                userId === currentUserDetails._id
-                  ? navigate("/home/profile")
-                  : navigate(`/home/peopleprofile/${userId}`);
-              }}
-            >
-              <img
-                src={userImage}
-                alt="userImage"
-                className=" rounded-full w-10 h-10 md:w-12 md:h-12 bg-pink-300 cursor-pointer mr-2"
-              />
-
-              <div className="flex flex-col items-start justify-center">
-                <div>{username}</div>
-                <div>{new Date(updatedAt)?.toDateString()}</div>
-              </div>
-            </div>
-            <div className="px-2 py-4">
-              {postImg?.length !== 0 && (
-                <img
-                  src={postImg}
-                  alt="userPostImg"
-                  className="rounded-md max-h-[50] md:max-h-[65vh] "
-                />
-              )}
-
-              <p className="pt-2">{content}</p>
-            </div>
-            <div className="flex justify-between items-center mt-2 ">
-              {singlePost?.likes?.likedBy?.find(
-                (users) => users._id === currentUserDetails._id
-              ) ? (
-                <i
-                  className="fa-lg fa-solid fa-heart  cursor-pointer  text-primaryDark "
-                  onClick={() => dislike(postID, dispatch)}
-                >
-                  <span className="font-normal pl-2">{likes?.likeCount}</span>
-                </i>
-              ) : (
-                <i
-                  className="fa-lg fa-regular fa-heart  cursor-pointer  text-primaryDark"
-                  onClick={() => like(postID, dispatch)}
-                >
-                  <span className="pl-2">{likes?.likeCount}</span>
-                </i>
-              )}
-              <i className="fa-lg fa-regular fa-comment  cursor-pointer  text-primaryDark">
-                <span className="pl-2">{comments?.length}</span>
-              </i>
-
-              {bookmarks?.find((item) => item._id === postID) ? (
-                <i
-                  className="fa-lg fa-solid fa-bookmark cursor-pointer  text-primaryDark"
-                  onClick={() => dispatch(removeBookmarkCall(postID))}
-                ></i>
-              ) : (
-                <i
-                  className="fa-lg fa-regular fa-bookmark  cursor-pointer  text-primaryDark"
-                  onClick={() => dispatch(addBookmarkCall(postID))}
-                ></i>
-              )}
-            </div>
-          </div>
+          <Post key={singlePost._id} item={singlePost} />
         ) : (
           <div>Loading...</div>
         )}
 
         {/* show comments */}
         <div className="flex flex-col justify-center items-center w-full h-full bg-secondaryDark dark:bg-nightLight  rounded-md">
-          {comments?.map(
-            ({
-              _id,
-              commentUserId,
-              content,
-              updatedAt,
-              commentImg,
-              userImage,
-              username,
-              votes,
-            }) => (
-              <div
-                key={_id}
-                className="flex flex-col w-full p-4  bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark shadow-md rounded-md mb-4"
-              >
-                <div className="flex items-center justify-between">
-                  <div
-                    className="flex items-center justify-start"
-                    onClick={() => {
-                      commentUserId === currentUserDetails._id
-                        ? navigate("/home/profile")
-                        : navigate(`/home/peopleprofile/${commentUserId}`);
-                    }}
-                  >
-                    <img
-                      src={userImage}
-                      alt="userImage"
-                      className=" rounded-full w-10 h-10 md:w-12 md:h-12 bg-pink-300 cursor-pointer mr-2"
-                    />
-
-                    <div className="flex flex-col items-start justify-center">
-                      <div>{username}</div>
-                      <div>{new Date(updatedAt)?.toDateString()}</div>
-                    </div>
-                  </div>
-                  {currentUserDetails._id === commentUserId && (
-                    <div
-                      className="cursor-pointer relative px-2"
-                      onClick={() => setOptions(true)}
-                    >
-                      <i className="fa-lg fa-solid fa-ellipsis-vertical "></i>
-                      {options && (
-                        <div
-                          className="w-24 h-20 bg-secondaryDark dark:bg-nightLight border-2 border-primaryLight rounded-md absolute top-0 right-5 flex flex-col items-start p-2 justify-center"
-                          ref={ref}
-                        >
-                          <div
-                            className="p-1 w-full "
-                            onClick={() =>
-                              editHandler({ content, commentImg, _id })
-                            }
-                          >
-                            <i className="fa-solid fa-pen-to-square"></i>Edit
-                          </div>
-                          <div
-                            className="p-1 w-full text-red-500"
-                            onClick={() => removeComments(postID, _id)}
-                          >
-                            <i className="fa-solid fa-trash"></i>Delete
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {commentImg && (
-                  <div className=" p-2">
-                    <img
-                      src={commentImg}
-                      alt="commentImg"
-                      className="w-fit h-56  rounded-md"
-                    />
-                  </div>
-                )}
-
-                <div className="flex flex-col justify-center items-start">
-                  <div className="p-4"> {content}</div>
-
-                  {votes.upvotedBy.find(
-                    (users) => users._id === currentUserDetails._id
-                  ) ? (
-                    <i
-                      className="fa-lg fa-solid fa-heart  cursor-pointer  text-primaryDark p-4"
-                      onClick={() => dislikeComments(postID, _id)}
-                    >
-                      <span className="pl-2 font-normal">
-                        {votes?.upvotedBy?.length}
-                      </span>
-                    </i>
-                  ) : (
-                    <i
-                      className="fa-lg fa-regular fa-heart  cursor-pointer  text-primaryDark p-4"
-                      onClick={() => likeComments(postID, _id)}
-                    >
-                      <span className="pl-2 font-normal">
-                        {votes?.upvotedBy?.length}
-                      </span>
-                    </i>
-                  )}
-                </div>
-              </div>
-            )
-          )}
+          {comments?.map((item) => (
+            <CommentSection
+              key={item._id}
+              item={item}
+              postID={postID}
+              editHandler={editHandler}
+            />
+          ))}
         </div>
 
         {/* add comment */}

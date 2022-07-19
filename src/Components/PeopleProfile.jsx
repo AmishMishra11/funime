@@ -17,7 +17,9 @@ function PeopleProfile() {
   const dispatch = useDispatch();
   const { peopleprofileID } = useParams();
 
-  const { user, currentUserDetails } = useSelector((store) => store.users);
+  const { user, currentUserDetails, userStatus } = useSelector(
+    (store) => store.users
+  );
 
   const { userPosts } = useSelector((store) => store.posts);
 
@@ -38,7 +40,7 @@ function PeopleProfile() {
   useEffect(() => {
     dispatch(loadUserCall(peopleprofileID));
     dispatch(loadUserPostCall(username));
-  }, [dispatch, peopleprofileID, user, username]);
+  }, [dispatch, peopleprofileID, username]);
 
   const displayUserPosts = [...userPosts]?.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
@@ -46,7 +48,9 @@ function PeopleProfile() {
 
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
-      {user ? (
+      {userStatus === "failed" ? (
+        <div>Loading ...</div>
+      ) : (
         <div className="flex flex-col p-4">
           <div className="relative mb-16 ">
             <img
@@ -115,8 +119,6 @@ function PeopleProfile() {
             <div>Loading</div>
           )}
         </div>
-      ) : (
-        <p>loading</p>
       )}
     </div>
   );

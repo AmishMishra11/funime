@@ -1,6 +1,12 @@
 import axios from "axios";
-
-export const editComments = async (commentData, PostId, commentId) => {
+import { editCommentCall } from "../../Redux/Features/postSlice";
+import { toast } from "react-toastify";
+export const editComments = async (
+  commentData,
+  PostId,
+  commentId,
+  dispatch
+) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
@@ -11,8 +17,9 @@ export const editComments = async (commentData, PostId, commentId) => {
       data: { commentData: commentData },
     });
 
-    console.log(res.data.comments);
+    if (res.status === 201) dispatch(editCommentCall(res.data.comments));
   } catch (e) {
+    toast.error("Failed to edti comment");
     console.log("error occured: ", e);
   }
 };

@@ -13,7 +13,7 @@ function Explore() {
     if (allPostsStatus === "idle") {
       dispatch(loadAllPostsCall());
     }
-  }, [dispatch, allPostsStatus]);
+  }, [allPostsStatus]);
 
   const [filter, setFilter] = useState("Popular");
 
@@ -30,7 +30,6 @@ function Explore() {
   const displayPopular = [...allPosts]?.sort(
     (a, b) => b.likes.likeCount - a.likes.likeCount
   );
-
   let showExplore = [];
 
   if (filter === "Popular") {

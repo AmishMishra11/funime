@@ -1,6 +1,4 @@
 import { Route, Routes } from "react-router";
-import "./App.css";
-
 import Login from "./Pages/Login";
 import Singup from "./Pages/Singup";
 import Home from "./Pages/Home";

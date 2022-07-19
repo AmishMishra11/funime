@@ -1,7 +1,6 @@
 import axios from "axios";
-import { dislikePost } from "../../Redux/Features/postSlice";
-
-export const dislike = async (id, dispatch) => {
+import { toast } from "react-toastify";
+export const dislike = async (id) => {
   const encodedToken = localStorage.getItem("token");
   try {
     const res = await axios({
@@ -10,8 +9,13 @@ export const dislike = async (id, dispatch) => {
       url: `/api/posts/dislike/${id}`,
     });
 
-    dispatch(dislikePost(res.data.posts));
+    if (res.status === 201) {
+      const allPosts = res.data.posts;
+      const myPost = res.data.posts.find((item) => item._id === id);
+      return { allPosts: allPosts, myPost: myPost };
+    }
   } catch (e) {
+    toast.error("Failed to dislike Post");
     console.log("error occured: ", e);
   }
 };
