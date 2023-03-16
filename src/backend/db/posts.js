@@ -50,7 +50,7 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "PrabhavS",
+    username: "NomanS",
     userId: "2",
     userImage: "https://avatars.githubusercontent.com/u/88072012?v=4",
     postImg:
@@ -69,7 +69,7 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "SukanyaS",
+    username: "SumaylaM",
     userId: "3",
     userImage: "https://avatars.githubusercontent.com/u/76467704?v=4",
     postImg:
@@ -88,7 +88,7 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "ChiragG",
+    username: "NiyatiN",
     userId: "4",
     userImage: "https://avatars.githubusercontent.com/u/51075671?v=4",
     postImg:
