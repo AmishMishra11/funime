@@ -53,7 +53,7 @@ export const users = [
   {
     _id: "4",
     fullName: "Niyati Nehal",
-    username: "NehalN",
+    username: "NiyatiN",
     email: "niyati@gmail.com",
     password: "Niyati@123",
     profileImg: "https://avatars.githubusercontent.com/u/58203867?v=4",

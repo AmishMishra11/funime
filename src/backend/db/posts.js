@@ -52,7 +52,7 @@ export const posts = [
     },
     username: "NomanS",
     userId: "2",
-    userImage: "https://avatars.githubusercontent.com/u/88072012?v=4",
+    userImage: "https://avatars.githubusercontent.com/u/117568277?v=4",
     postImg:
       "https://res.cloudinary.com/amish11/image/upload/v1655037143/social%20media/Solo-Leveling-Anime_yyo0sb.jpg",
 
@@ -71,7 +71,7 @@ export const posts = [
     },
     username: "SumaylaM",
     userId: "3",
-    userImage: "https://avatars.githubusercontent.com/u/76467704?v=4",
+    userImage: "https://avatars.githubusercontent.com/u/81866875?v=4",
     postImg:
       "https://res.cloudinary.com/amish11/image/upload/v1655040004/social%20media/Tengen-Uzui_pywsks.webp",
 
@@ -90,7 +90,7 @@ export const posts = [
     },
     username: "NiyatiN",
     userId: "4",
-    userImage: "https://avatars.githubusercontent.com/u/51075671?v=4",
+    userImage: "https://avatars.githubusercontent.com/u/58203867?v=4",
     postImg:
       "https://res.cloudinary.com/amish11/image/upload/v1655040116/social%20media/Itachi_dzcrnc.webp",
 
