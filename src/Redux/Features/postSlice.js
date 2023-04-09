@@ -5,10 +5,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getPosts } from "../../Services/Post/getPostApi";
 import { getUserPosts } from "../../Services/Post/getUserPostApi";
 
-import axios from "axios";
 import { toast } from "react-toastify";
 import { like } from "../../Services/Like/likeApi";
 import { dislike } from "../../Services/Like/dislikeApi";
+import { secureAxiosInstance } from "../../Services/apiInterceptor";
 
 const initialState = {
   allPostsStatus: "idle",
@@ -21,14 +21,16 @@ const initialState = {
   singlePost: {},
   comments: [],
 };
+const encodedToken = localStorage.getItem("token");
 
 export const loadAllPostsCall = createAsyncThunk(
   "posts/loadAllPostsCall",
   async () => {
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "GET",
-        url: "/api/posts",
+        url: "/posts",
+        headers: { authorization: encodedToken },
       });
 
       if (res.status === 200) return res.data.posts;
@@ -89,6 +91,9 @@ export const postslice = createSlice({
     },
     deletePost: (state, action) => {
       state.allPosts = [action.payload];
+    },
+    deleteSinglePost: (state, action) => {
+      state.singlePost = action.payload;
     },
 
     getCommentCall: (state, action) => {
@@ -172,7 +177,7 @@ export const postslice = createSlice({
 
       const tempAr = oldPostsallPostsValue.filter((newPost) => {
         const result = newPostValue.find(
-          (oldPost) => oldPost.id === newPost.id
+          (oldPost) => oldPost._id == newPost._id
         );
         return result ? false : true;
       });
@@ -197,6 +202,7 @@ export const postslice = createSlice({
 export const {
   addNewPostToAllPost,
   deletePost,
+  deleteSinglePost,
   editPostCall,
   addNewPostToUserFeedPost,
   removeAllPostFromUserFeed,

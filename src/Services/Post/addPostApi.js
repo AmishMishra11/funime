@@ -1,23 +1,23 @@
-import axios from "axios";
 import {
   addNewPostToAllPost,
   addNewPostToUserFeedPost,
 } from "../../Redux/Features/postSlice";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 export const addPost = async (postData, dispatch) => {
   const encodedToken = localStorage.getItem("token");
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: "/api/posts",
+      url: "/posts",
       headers: { authorization: encodedToken },
       data: { postData },
     });
 
     if (res.status === 201) {
       dispatch(addNewPostToAllPost(res.data.posts));
-      const arrLength = res.data.posts.length;
-      const newPost = res.data.posts[arrLength - 1];
+      const arrLength = res.data.posts?.length;
+      const newPost = res.data?.posts[arrLength - 1];
       dispatch(addNewPostToUserFeedPost(newPost));
     }
   } catch (e) {

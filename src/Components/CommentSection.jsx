@@ -101,10 +101,10 @@ function CommentSection({ item, postID, editHandler }) {
         )}
       </div>
 
-      {commentImg && (
+      {commentImg?.url?.length !== 0 && (
         <div className=" p-2">
           <img
-            src={commentImg}
+            src={commentImg.url}
             alt="commentImg"
             className="w-fit h-56  rounded-md"
           />
@@ -114,21 +114,19 @@ function CommentSection({ item, postID, editHandler }) {
       <div className="flex flex-col justify-center items-start">
         <div className="p-4"> {content}</div>
 
-        {votes.upvotedBy.find(
-          (users) => users._id === currentUserDetails._id
-        ) ? (
+        {votes?.find((users) => users.userId === currentUserDetails._id) ? (
           <i
             className="fa-lg fa-solid fa-heart  cursor-pointer  text-primaryDark p-4"
             onClick={() => dislikeComments(postID, _id, dispatch)}
           >
-            <span className="pl-2 font-normal">{votes?.upvotedBy?.length}</span>
+            <span className="pl-2 font-normal">{votes?.length}</span>
           </i>
         ) : (
           <i
             className="fa-lg fa-regular fa-heart  cursor-pointer  text-primaryDark p-4"
             onClick={() => likeComments(postID, _id, dispatch)}
           >
-            <span className="pl-2 font-normal">{votes?.upvotedBy?.length}</span>
+            <span className="pl-2 font-normal">{votes?.length}</span>
           </i>
         )}
       </div>

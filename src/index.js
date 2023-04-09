@@ -3,14 +3,14 @@ import { createRoot } from "react-dom/client";
 
 import "./index.css";
 import App from "./App";
-import { makeServer } from "./server";
+// import { makeServer } from "./server";
 
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./Redux/store";
 import { Provider } from "react-redux";
 
-// Call make Server
-makeServer();
+// Call make Server for mockbackend
+// makeServer();
 
 const container = document.getElementById("root");
 const root = createRoot(container);

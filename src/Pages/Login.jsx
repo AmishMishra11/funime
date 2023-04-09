@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -24,6 +24,18 @@ function Login() {
       [e.target.name]: e.target.value,
     });
   };
+
+  let temp = localStorage.getItem("key");
+  if (temp === "true") {
+    localStorage.removeItem("key");
+  }
+
+  useEffect(() => {
+    if (temp === "true")
+      toast.error("Session Expired!", {
+        toastId: "id",
+      });
+  }, [temp]);
 
   const { tempUserName, tempPassword } = tempUserDetail;
 
@@ -84,7 +96,7 @@ function Login() {
             Login
           </div>
 
-          <div
+          {/* <div
             className="mx-1 my-2 p-3 text-center text-primaryDark bg-secondaryDark dark:text-secondaryLight dark:bg-nightLight border-2 rounded-lg border-primaryDark cursor-pointer"
             onClick={() =>
               setTempUserDetail({
@@ -94,7 +106,7 @@ function Login() {
             }
           >
             Guest Login
-          </div>
+          </div> */}
           <div className="p-1 text-center ">
             <Link
               className="hover:border-b-2 border-primaryDark dark:text-secondaryLight"

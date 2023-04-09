@@ -1,6 +1,6 @@
-import axios from "axios";
 import { editCommentCall } from "../../Redux/Features/postSlice";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 export const editComments = async (
   commentData,
   PostId,
@@ -10,9 +10,9 @@ export const editComments = async (
   const encodedToken = localStorage.getItem("token");
 
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: `/api/comments/edit/${PostId}/${commentId}`,
+      url: `/comments/edit/${PostId}/${commentId}`,
       headers: { authorization: encodedToken },
       data: { commentData: commentData },
     });

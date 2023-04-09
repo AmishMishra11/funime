@@ -28,7 +28,7 @@ function Search() {
     (store) => store.users
   );
 
-  const currentUserId = currentUserDetails._id;
+  const currentUserId = currentUserDetails?._id;
 
   const users = allUsers.filter((user) => user._id !== currentUserId);
 
@@ -115,7 +115,7 @@ function Search() {
                       >
                         <img
                           className=" rounded-full w-12 h-12 bg-pink-300 cursor-pointer"
-                          src={profileImg}
+                          src={profileImg.url}
                           alt="Users Profile"
                         />
 
@@ -125,7 +125,7 @@ function Search() {
                         </div>
                       </div>
                       {currentUserDetails?.following?.find(
-                        (item) => item._id === _id
+                        (item) => item.userId == _id
                       ) ? (
                         <button
                           className="py-1 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md w-24"

@@ -8,8 +8,8 @@ import { removeBookmarks } from "../../Services/Bookmark/removeBookmarksApi";
 
 import { editProfileImageOfPost } from "./postSlice";
 
-import axios from "axios";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../../Services/apiInterceptor";
 const initialState = {
   allUsers: [],
   allUserStatus: "idle",
@@ -25,14 +25,16 @@ const initialState = {
   bookmarkStatus: "idle",
   bookmarks: [],
 };
+const encodedToken = localStorage.getItem("token");
 
 export const loadAllUsersCall = createAsyncThunk(
   "users/loadAllUsersCall",
   async () => {
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "GET",
-        url: "/api/users",
+        url: "/users",
+        headers: { authorization: encodedToken },
       });
 
       if (res.status === 200) return res.data.users;
@@ -52,9 +54,10 @@ export const loadUserCall = createAsyncThunk(
     } = getState();
 
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "GET",
-        url: `/api/users/${id}`,
+        url: `/users/${id}`,
+        headers: { authorization: encodedToken },
       });
 
       if (res.status === 200) return res.data.user;
@@ -76,21 +79,20 @@ export const editUserCall = createAsyncThunk(
     const encodedToken = localStorage.getItem("token");
 
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "POST",
-        url: "/api/users/edit",
+        url: `/users/edit/${editUesrData.id}`,
         headers: { authorization: encodedToken },
         data: { userData: editUesrData },
       });
 
-      dispatch(editProfileImageOfPost(res.data.posts));
-
       if (res.status === 201) {
+        dispatch(editProfileImageOfPost(res.data.posts));
         localStorage.setItem("userDetails", JSON.stringify(res.data.user));
         return res.data.user;
       }
     } catch (e) {
-      toast.error("Failed to follow User");
+      toast.error("Failed to update user data");
       console.log("error occured: ", e);
       return rejectWithValue(currentUserDetails);
     }
@@ -106,9 +108,8 @@ export const removeBookmarkCall = createAsyncThunk(
   (id) => removeBookmarks(id)
 );
 
-export const getBookmarkCall = createAsyncThunk(
-  "users/getBookmarkCall",
-  getBookmarks
+export const getBookmarkCall = createAsyncThunk("users/getBookmarkCall", (id) =>
+  getBookmarks(id)
 );
 
 export const followCall = createAsyncThunk(
@@ -119,12 +120,17 @@ export const followCall = createAsyncThunk(
     } = getState();
 
     const encodedToken = localStorage.getItem("token");
+    const userDetailsString = localStorage.getItem("userDetails");
+    const userDetails = JSON.parse(userDetailsString);
 
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "POST",
         headers: { authorization: encodedToken },
-        url: `/api/users/follow/${_id}`,
+        url: `/users/follow/${_id}`,
+        data: {
+          userId: userDetails._id,
+        },
       });
       if (res.status === 200) {
         return res.data.user;
@@ -145,18 +151,23 @@ export const unfollowCall = createAsyncThunk(
     } = getState();
 
     const encodedToken = localStorage.getItem("token");
+    const userDetailsString = localStorage.getItem("userDetails");
+    const userDetails = JSON.parse(userDetailsString);
 
     try {
-      const res = await axios({
+      const res = await secureAxiosInstance({
         method: "POST",
         headers: { authorization: encodedToken },
-        url: `/api/users/unfollow/${_id}`,
+        url: `/users/unfollow/${_id}`,
+        data: {
+          userId: userDetails._id,
+        },
       });
       if (res.status === 200) {
         return res.data.user;
       }
     } catch (e) {
-      toast.error("Failed to follow User");
+      toast.error("Failed to unfollow User");
       console.log("error occured: ", e);
       return rejectWithValue(currentUserDetails);
     }

@@ -1,12 +1,12 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
-export const editUser = async (editUserdata) => {
+export const editUser = async (id, editUserdata) => {
   const encodedToken = localStorage.getItem("token");
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: "/api/users/edit",
+      url: `/users/edit/${id}`,
       headers: { authorization: encodedToken },
       data: { userData: editUserdata },
     });

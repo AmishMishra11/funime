@@ -1,17 +1,17 @@
-import axios from "axios";
 import {
   commentCallHandler,
   removeCommentCall,
 } from "../../Redux/Features/postSlice";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
 export const removeComments = async (PostId, commentId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: `/api/comments/delete/${PostId}/${commentId}`,
+      url: `/comments/delete/${PostId}/${commentId}`,
       headers: { authorization: encodedToken },
     });
 

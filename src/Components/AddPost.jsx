@@ -13,12 +13,25 @@ function AddPost() {
   const [postImage, setPostImage] = useState("");
   const [postContent, setPostContent] = useState("");
 
+  const handleAddPostImage = (e) => {
+    const file = e.target.files[0];
+    if (file) previewPostImage(file);
+  };
+
+  const previewPostImage = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPostImage(reader.result);
+    };
+  };
+
   const newPostHandler = () => {
     addPost(
       {
         comments: [],
         content: postContent,
-        postImg: postImage && URL.createObjectURL(postImage),
+        postImg: postImage && postImage,
         userImage: currentUserDetails.profileImg,
         userId: currentUserDetails._id,
       },
@@ -33,7 +46,7 @@ function AddPost() {
     <div className="border-b-2 border-primaryDark dark:bg-nightLight ">
       <div className="flex p-5 w-full gap-2  ">
         <img
-          src={currentUserDetails?.profileImg}
+          src={currentUserDetails?.profileImg.url}
           alt="UserProfileImg"
           className=" rounded-full   min-w-[3rem] w-12 h-12 md:min-w-[4rem] md:w-16 md:h-16 bg-pink-300 cursor-pointer "
         />
@@ -50,7 +63,7 @@ function AddPost() {
           {postImage && (
             <div className="w-32 h-fit m-2 relative rounded-md  ">
               <img
-                src={postImage && URL.createObjectURL(postImage)}
+                src={postImage && postImage}
                 alt="uploadImage"
                 className="w-fit h-fit rounded-md"
               />
@@ -68,7 +81,7 @@ function AddPost() {
               <input
                 className="hidden "
                 type="file"
-                onChange={(e) => setPostImage(e.target.files[0])}
+                onChange={(e) => handleAddPostImage(e)}
                 accept="image/*"
                 ref={fileInput}
               />

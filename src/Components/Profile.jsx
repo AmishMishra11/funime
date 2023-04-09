@@ -31,22 +31,24 @@ function Profile() {
     dispatch(loadUserPostCall(currentUserDetails?.username));
   }, [dispatch, currentUserDetails, allPosts]);
 
-  const displayUserPosts = [...userPosts]?.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const displayUserPosts =
+    userPosts?.length &&
+    [...userPosts]?.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark  dark:bg-nightLight overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       <div className="flex flex-col p-4">
         <div className="relative mb-16 ">
           <img
-            src={profileBackgroundImg}
+            src={profileBackgroundImg.url}
             alt="prifileBgImg"
             className=" h-56 md:h-80 w-full rounded-lg "
           />
 
           <img
-            src={profileImg}
+            src={profileImg.url}
             alt="profileImg"
             className=" h-24 w-24  md:h-28 md:w-28 rounded-full  absolute bottom-[-2.5rem] left-4 md:left-10 border-2 dark:border-nightInput border-secondaryLight"
           />
@@ -68,7 +70,7 @@ function Profile() {
               <div className="cursor-pointer pr-2">
                 <i className="text-blue-400 fa-solid fa-link"></i>
                 <a className="text-blue-400" href={portfolio}>
-                  Your Website
+                  My Website
                 </a>
               </div>
             )}
@@ -88,10 +90,10 @@ function Profile() {
           <AddPost />
         </div>
 
-        {userPosts ? (
+        {userPosts?.length ? (
           displayUserPosts.map((item) => <Post key={item._id} item={item} />)
         ) : (
-          <div>Loading</div>
+          <></>
         )}
       </div>
 

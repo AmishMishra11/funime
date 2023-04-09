@@ -42,9 +42,11 @@ function PeopleProfile() {
     dispatch(loadUserPostCall(username));
   }, [dispatch, peopleprofileID, username]);
 
-  const displayUserPosts = [...userPosts]?.sort(
-    (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-  );
+  const displayUserPosts =
+    userPosts?.length &&
+    [...userPosts]?.sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    );
 
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
@@ -54,18 +56,20 @@ function PeopleProfile() {
         <div className="flex flex-col p-4">
           <div className="relative mb-16 ">
             <img
-              src={profileBackgroundImg}
+              src={profileBackgroundImg?.url}
               alt="prifileBgImg"
               className=" h-56 md:h-80 w-full rounded-lg "
             />
 
             <img
-              src={profileImg}
+              src={profileImg?.url}
               alt="profileImg"
               className=" h-24 w-24  md:h-28 md:w-28 rounded-full  absolute bottom-[-2.5rem] left-4 md:left-10 border-2 border-secondaryLight dark:border-nightInput"
             />
 
-            {currentUserDetails?.following?.find((item) => item._id === _id) ? (
+            {currentUserDetails?.following?.find(
+              (item) => item.userId == _id
+            ) ? (
               <button
                 className="py-2 w-24 bg-secondaryLight dark:bg-nightDark text-primaryDark  border-2 border-primaryDark rounded-md absolute bottom-[-3rem] right-0 cursor-pointer"
                 onClick={() => {
@@ -97,7 +101,7 @@ function PeopleProfile() {
                 <div className="cursor-pointer">
                   <i className="text-blue-400 fa-solid fa-link"></i>
                   <a className="text-blue-400" href={portfolio}>
-                    {portfolio}
+                    WebSite
                   </a>
                 </div>
               )}
@@ -113,10 +117,10 @@ function PeopleProfile() {
             </div>
           </div>
 
-          {userPosts ? (
+          {userPosts?.length ? (
             displayUserPosts.map((item) => <Post key={item._id} item={item} />)
           ) : (
-            <div>Loading</div>
+            <></>
           )}
         </div>
       )}

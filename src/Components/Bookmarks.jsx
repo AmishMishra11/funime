@@ -8,13 +8,16 @@ import noResult from "../assets/what_should_we_do.gif";
 
 function Bookmarks() {
   const dispatch = useDispatch();
-  const { bookmarks, bookmarkStatus } = useSelector((store) => store.users);
+  const { bookmarks, bookmarkStatus, currentUserDetails } = useSelector(
+    (store) => store.users
+  );
 
+  const { _id } = currentUserDetails;
   useEffect(() => {
     if (bookmarkStatus === "idle") {
-      dispatch(getBookmarkCall());
+      dispatch(getBookmarkCall(_id));
     }
-  }, [dispatch, bookmarkStatus]);
+  }, [dispatch, bookmarkStatus, _id]);
 
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight  overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
@@ -22,7 +25,7 @@ function Bookmarks() {
         <div className="text-primaryDark text-lg  md:text-3xl font-medium pb-5 mb-4 border-b-2 border-primaryDark w-full text-center">
           Bookmarks
         </div>
-        <div>
+        <div className="w-full">
           {bookmarkStatus === "loading" ? (
             <div>Loading</div>
           ) : (
