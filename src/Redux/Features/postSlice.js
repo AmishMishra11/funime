@@ -21,12 +21,13 @@ const initialState = {
   singlePost: {},
   comments: [],
 };
-const encodedToken = localStorage.getItem("token");
 
 export const loadAllPostsCall = createAsyncThunk(
   "posts/loadAllPostsCall",
   async () => {
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "GET",
         url: "/posts",

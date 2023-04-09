@@ -25,12 +25,13 @@ const initialState = {
   bookmarkStatus: "idle",
   bookmarks: [],
 };
-const encodedToken = localStorage.getItem("token");
 
 export const loadAllUsersCall = createAsyncThunk(
   "users/loadAllUsersCall",
   async () => {
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "GET",
         url: "/users",
@@ -54,6 +55,8 @@ export const loadUserCall = createAsyncThunk(
     } = getState();
 
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "GET",
         url: `/users/${id}`,
@@ -79,6 +82,8 @@ export const editUserCall = createAsyncThunk(
     const encodedToken = localStorage.getItem("token");
 
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "POST",
         url: `/users/edit/${editUesrData.id}`,
@@ -124,6 +129,8 @@ export const followCall = createAsyncThunk(
     const userDetails = JSON.parse(userDetailsString);
 
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "POST",
         headers: { authorization: encodedToken },
@@ -155,6 +162,8 @@ export const unfollowCall = createAsyncThunk(
     const userDetails = JSON.parse(userDetailsString);
 
     try {
+      const encodedToken = localStorage.getItem("token");
+
       const res = await secureAxiosInstance({
         method: "POST",
         headers: { authorization: encodedToken },
