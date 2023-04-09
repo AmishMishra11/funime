@@ -1,14 +1,14 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
 export const follow = async (_id) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
       headers: { authorization: encodedToken },
-      url: `/api/users/follow/${_id}`,
+      url: `/users/follow/${_id}`,
     });
 
     if (res.status === 200) return res.data.user;

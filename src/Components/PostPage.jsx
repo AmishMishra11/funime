@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
 import { loadPostCall } from "../Redux/Features/postSlice";
 import { addComments } from "../Services/Comments/addCommentsApi";
@@ -10,12 +10,20 @@ import { Post } from "./Post";
 import { CommentSection } from "./CommentSection";
 
 function PostPage() {
+  const navigate = useNavigate();
+
   const { postID } = useParams();
 
   const { currentUserDetails } = useSelector((store) => store.users);
 
   const { singlePost, comments } = useSelector((store) => store.posts);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (singlePost !== undefined && Object.keys(singlePost).length === 0)
+      navigate("/home");
+  }, [singlePost]);
 
   useEffect(() => {
     dispatch(loadPostCall(postID));
@@ -28,13 +36,27 @@ function PostPage() {
   const fileInput = useRef();
 
   const [commentImage, setcommentImage] = useState("");
+  const [editCommentImage, setEditCommentImage] = useState("");
   const [commentContent, setcommentContent] = useState("");
+
+  const handleEditCommentImage = (e) => {
+    const file = e.target.files[0];
+    if (file) previewEditCommentImage(file);
+  };
+
+  const previewEditCommentImage = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setEditCommentImage(reader.result);
+    };
+  };
 
   const newCommentHandler = () => {
     addComments(
       {
         content: commentContent,
-        commentImg: commentImage && URL.createObjectURL(commentImage),
+        commentImg: editCommentImage && editCommentImage,
         userImage: currentUserDetails.profileImg,
         commentUserId: currentUserDetails._id,
       },
@@ -43,7 +65,7 @@ function PostPage() {
     );
 
     setcommentContent("");
-    setcommentImage("");
+    setEditCommentImage("");
   };
 
   const commentInput = useRef();
@@ -68,11 +90,7 @@ function PostPage() {
     editComments(
       {
         content: commentContent,
-        commentImg: commentImage
-          ? typeof commentImage === "string"
-            ? commentImage
-            : URL.createObjectURL(commentImage)
-          : "",
+        commentImg: editCommentImage && editCommentImage,
         userImage: currentUserDetails.profileImg,
         commentUserId: currentUserDetails._id,
       },
@@ -82,7 +100,7 @@ function PostPage() {
     );
 
     setcommentContent("");
-    setcommentImage("");
+    setEditCommentImage("");
     setIsEdit(false);
   };
 
@@ -112,7 +130,7 @@ function PostPage() {
         <div className="border-2 border-primaryLight rounded-md">
           <div className="flex p-5 w-full gap-2  ">
             <img
-              src={currentUserDetails?.profileImg}
+              src={currentUserDetails?.profileImg.url}
               alt="UserProfileImg"
               className=" rounded-full   min-w-[3rem] w-12 h-12 md:min-w-[4rem] md:w-16 md:h-16 bg-pink-300 cursor-pointer "
             />
@@ -127,20 +145,16 @@ function PostPage() {
                 ref={commentInput}
                 required
               ></textarea>
-              {commentImage && (
+              {editCommentImage && (
                 <div className="w-32 h-fit m-2 relative rounded-md  ">
                   <img
-                    src={
-                      typeof commentImage === "string"
-                        ? commentImage
-                        : URL.createObjectURL(commentImage)
-                    }
+                    src={editCommentImage ? editCommentImage : commentImage}
                     alt="uploadImage"
                     className="w-fit h-fit rounded-md"
                   />
                   <span
                     className="flex justify-center items-center bg-primaryLight absolute top-[-8px] right-[-10px] w-6 h-6 rounded-full cursor-pointer"
-                    onClick={() => setcommentImage("")}
+                    onClick={() => setEditCommentImage("")}
                   >
                     <i className="fa-solid fa-xmark"></i>
                   </span>
@@ -148,11 +162,12 @@ function PostPage() {
               )}
 
               <div className="flex justify-between items-center">
-                <div>
+                {/* for adding comment with image */}
+                {/* <div>
                   <input
                     className="hidden "
                     type="file"
-                    onChange={(e) => setcommentImage(e.target.files[0])}
+                    onChange={(e) => handleEditCommentImage(e)}
                     accept="image/*"
                     ref={fileInput}
                   />
@@ -160,7 +175,7 @@ function PostPage() {
                     className="pr-2 fa-xl fa-solid fa-image cursor-pointer text-primaryDark"
                     onClick={() => fileInput?.current.click()}
                   ></i>
-                </div>
+                </div> */}
 
                 <div className="flex  items-center justify-center px-2 gap-2">
                   {isEdit && (
@@ -168,7 +183,7 @@ function PostPage() {
                       className="bg-red-500 text-secondaryDark w-24 p-2 border-2 dark:border-nightInput rounded-md"
                       onClick={() => {
                         setcommentContent("");
-                        setcommentImage("");
+                        setEditCommentImage("");
                         setIsEdit(false);
                       }}
                     >

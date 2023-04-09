@@ -1,12 +1,12 @@
-import axios from "axios";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
-export const getBookmarks = async () => {
+export const getBookmarks = async (id) => {
   const encodedToken = localStorage.getItem("token");
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "GET",
-      url: "/api/users/bookmark",
+      url: `/users/bookmark/${id}`,
       headers: { authorization: encodedToken },
     });
 

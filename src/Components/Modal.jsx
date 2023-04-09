@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 function Modal({ setIsModal, isModal, user }) {
   const ref = useRef();
 
-  const { profileBackgroundImg, profileImg, fullName, portfolio, about } = user;
+  const { profileBackgroundImg, profileImg, fullName, portfolio, about, _id } =
+    user;
 
   const dispatch = useDispatch();
 
@@ -18,22 +19,54 @@ function Modal({ setIsModal, isModal, user }) {
   const [editImg, setEditImg] = useState("");
   const [editFullName, setEditFullName] = useState(fullName);
 
+  // console.log(
+  //   { profileImg },
+  //   { profileBackgroundImg },
+  //   { editBackground },
+  //   { editImg }
+  // );
+
   const [editPortfolio, setEditPortfolio] = useState(portfolio);
   const [editBio, setEditBio] = useState(about);
 
+  const handleEditBackground = (e) => {
+    const file = e.target.files[0];
+    if (file) previewBackgroundFile(file);
+  };
+
+  const previewBackgroundFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setEditBackground(reader.result);
+    };
+  };
+
+  const handleEditUserImage = (e) => {
+    const file = e.target.files[0];
+    if (file) previewEditUserImageFile(file);
+  };
+
+  const previewEditUserImageFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setEditImg(reader.result);
+    };
+  };
+
   const handleEditProfile = () => {
-    setIsModal(false);
     dispatch(
       editUserCall({
+        id: _id,
         fullName: editFullName,
-        profileImg: editImg ? URL.createObjectURL(editImg) : profileImg,
-        profileBackgroundImg: editBackground
-          ? URL.createObjectURL(editBackground)
-          : profileBackgroundImg,
+        profileImg: editImg && editImg,
+        profileBackgroundImg: editBackground && editBackground,
         about: editBio,
         portfolio: editPortfolio,
       })
     );
+    setIsModal(false);
   };
 
   useEffect(() => {
@@ -61,18 +94,14 @@ function Modal({ setIsModal, isModal, user }) {
       </div>
       <div className=" relative mb-10 w-full p-2">
         <img
-          src={
-            editBackground
-              ? URL.createObjectURL(editBackground)
-              : profileBackgroundImg
-          }
+          src={editBackground ? editBackground : profileBackgroundImg.url}
           alt="BgImg"
           className="h-36  sm:h-40 md:h-48 w-full  rounded-lg"
         />
         <input
           className="hidden"
           type="file"
-          onChange={(e) => setEditBackground(e.target.files[0])}
+          onChange={(e) => handleEditBackground(e)}
           accept="image/*"
           ref={bgInput}
         />
@@ -84,7 +113,7 @@ function Modal({ setIsModal, isModal, user }) {
           <i className="fa-solid fa-image"></i> Banner
         </div>
         <img
-          src={editImg ? URL.createObjectURL(editImg) : profileImg}
+          src={editImg ? editImg : profileImg.url}
           alt="Pfp"
           className="h-16 w-16 absolute bottom-[-1rem] left-6 border-2 rounded-full border-secondaryLight dark:border-nightInput"
         />
@@ -92,7 +121,7 @@ function Modal({ setIsModal, isModal, user }) {
         <input
           className="hidden "
           type="file"
-          onChange={(e) => setEditImg(e.target.files[0])}
+          onChange={(e) => handleEditUserImage(e)}
           accept="image/*"
           ref={pfpInput}
         />

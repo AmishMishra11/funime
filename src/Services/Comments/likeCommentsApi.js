@@ -1,16 +1,21 @@
-import axios from "axios";
 import { likeCommentCall } from "../../Redux/Features/postSlice";
 
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
 export const likeComments = async (postID, id, dispatch) => {
   const encodedToken = localStorage.getItem("token");
+  const userDetailsString = localStorage.getItem("userDetails");
+  const userDetails = JSON.parse(userDetailsString);
 
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: `/api/comments/upvote/${postID}/${id}`,
+      url: `/comments/upvote/${postID}/${id}`,
       headers: { authorization: encodedToken },
+      data: {
+        userId: userDetails._id,
+      },
     });
 
     if (res.status === 201) dispatch(likeCommentCall(res.data.comments));

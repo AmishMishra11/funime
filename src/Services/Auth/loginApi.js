@@ -1,8 +1,8 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 
 import { userLogin } from "../../Redux/Features/authSlice";
 import { setCurrentUserDetails } from "../../Redux/Features/userSlice";
+import { secureAxiosInstance } from "../apiInterceptor";
 
 export const loginUser = async (
   tempUesrName,
@@ -11,9 +11,9 @@ export const loginUser = async (
   navigate
 ) => {
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/auth/login",
       data: { username: tempUesrName, password: tempPassword },
     });
 

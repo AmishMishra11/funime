@@ -14,10 +14,25 @@ function EditPost() {
   const { currentUserDetails } = useSelector((store) => store.users);
 
   const { singlePost, singlePostStatus } = useSelector((store) => store.posts);
+  const { content, postImg } = singlePost;
   const dispatch = useDispatch();
 
   const [PostImage, setPostImage] = useState("");
+  const [EditedPostImage, setEditedPostImage] = useState("");
   const [PostContent, setPostContent] = useState("");
+
+  const handleEditPostImage = (e) => {
+    const file = e.target.files[0];
+    if (file) previewEditPostImage(file);
+  };
+
+  const previewEditPostImage = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setEditedPostImage(reader.result);
+    };
+  };
 
   useEffect(() => {
     dispatch(loadPostCall(postID));
@@ -27,9 +42,7 @@ function EditPost() {
     setPostContent(content);
     setPostImage(postImg);
     PostInput.current.select();
-  }, [singlePost]);
-
-  const { content, postImg } = singlePost;
+  }, [singlePost, content, postImg]);
 
   const fileInput = useRef();
 
@@ -39,13 +52,13 @@ function EditPost() {
     editPost(
       {
         content: PostContent,
-        postImg: PostImage
-          ? typeof PostImage === "string"
-            ? PostImage
-            : URL.createObjectURL(PostImage)
+        postImg: EditedPostImage
+          ? EditedPostImage
+          : PostImage?.url?.length
+          ? PostImage.url
           : "",
         userImage: currentUserDetails.profileImg,
-        PostUserId: currentUserDetails._id,
+        postUserId: currentUserDetails._id,
       },
       postID,
       dispatch
@@ -64,7 +77,7 @@ function EditPost() {
         <div className="border-2 border-primaryLight rounded-md">
           <div className="flex p-5 w-full gap-2  ">
             <img
-              src={currentUserDetails?.profileImg}
+              src={currentUserDetails?.profileImg.url}
               alt="UserProfileImg"
               className=" rounded-full   min-w-[3rem] w-12 h-12 md:min-w-[4rem] md:w-16 md:h-16 bg-pink-300 cursor-pointer "
             />
@@ -79,32 +92,32 @@ function EditPost() {
                 ref={PostInput}
                 required
               ></textarea>
-              {PostImage && (
-                <div className="w-60 h-fit m-2 relative rounded-md  ">
-                  <img
-                    src={
-                      typeof PostImage === "string"
-                        ? PostImage
-                        : URL.createObjectURL(PostImage)
-                    }
-                    alt="uploadImage"
-                    className="w-fit h-fit rounded-md"
-                  />
-                  <span
-                    className="flex justify-center items-center bg-primaryLight absolute top-[-8px] right-[-10px] w-6 h-6 rounded-full cursor-pointer"
-                    onClick={() => setPostImage("")}
-                  >
-                    <i className="fa-solid fa-xmark"></i>
-                  </span>
-                </div>
-              )}
+              {PostImage.length ||
+                (EditedPostImage.length && (
+                  <div className="w-60 h-fit m-2 relative rounded-md  ">
+                    <img
+                      src={EditedPostImage ? EditedPostImage : PostImage.url}
+                      alt="uploadImage"
+                      className="w-fit h-fit rounded-md"
+                    />
+                    <span
+                      className="flex justify-center items-center bg-primaryLight absolute top-[-8px] right-[-10px] w-6 h-6 rounded-full cursor-pointer"
+                      onClick={() => {
+                        setPostImage("");
+                        setEditedPostImage("");
+                      }}
+                    >
+                      <i className="fa-solid fa-xmark"></i>
+                    </span>
+                  </div>
+                ))}
 
               <div className="flex justify-between items-center">
                 <div>
                   <input
                     className="hidden "
                     type="file"
-                    onChange={(e) => setPostImage(e.target.files[0])}
+                    onChange={(e) => handleEditPostImage(e)}
                     accept="image/*"
                     ref={fileInput}
                   />

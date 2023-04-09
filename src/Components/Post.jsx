@@ -105,9 +105,9 @@ function Post({ item }) {
       </div>
 
       <div className="px-2 py-4 ">
-        {postImg?.length !== 0 && (
+        {postImg?.url?.length !== 0 && (
           <img
-            src={postImg}
+            src={postImg?.url}
             alt="userPostImg"
             className="rounded-md max-h-[50] md:max-h-[65vh] cursor-pointer"
             onClick={() => navigate(`/home/post/${_id}`)}
@@ -118,7 +118,7 @@ function Post({ item }) {
       </div>
       <div className="flex justify-between items-center mt-2 ">
         {item?.likes?.likedBy?.find(
-          (users) => users._id === currentUserDetails._id
+          (users) => users.userId === currentUserDetails._id
         ) ? (
           <i
             className="fa-lg fa-solid fa-heart  cursor-pointer  text-primaryDark "
@@ -142,7 +142,7 @@ function Post({ item }) {
           <span className="pl-2">{comments?.length}</span>
         </i>
 
-        {bookmarks?.find((item) => item._id === _id) ? (
+        {bookmarks?.find((item) => item._id == _id) ? (
           <i
             className="fa-lg fa-solid fa-bookmark cursor-pointer  text-primaryDark"
             onClick={() => dispatch(removeBookmarkCall(_id))}

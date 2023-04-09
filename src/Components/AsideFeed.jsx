@@ -18,7 +18,7 @@ function AsideFeed() {
     <div className="hidden xl:block bg-secondaryDark dark:bg-nightLight rounded-lg w-2/4 mr-5 h-fit my-6 pb-2">
       <div className="flex flex-col justify-center items-center m-4 p-4 border-2 dark:border-nightInput rounded-md shadow-md">
         <img
-          src={profileImg}
+          src={profileImg.url}
           alt="Current User Profile"
           className=" rounded-full w-16 h-16 bg-pink-300 cursor-pointer"
           onClick={() => {

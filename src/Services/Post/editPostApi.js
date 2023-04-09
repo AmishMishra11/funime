@@ -1,14 +1,14 @@
-import axios from "axios";
 import { editPostCall } from "../../Redux/Features/postSlice";
 import { toast } from "react-toastify";
+import { secureAxiosInstance } from "../apiInterceptor";
 
 export const editPost = async (postData, PostId, dispatch) => {
   const encodedToken = localStorage.getItem("token");
 
   try {
-    const res = await axios({
+    const res = await secureAxiosInstance({
       method: "POST",
-      url: `/api/posts/edit/${PostId}`,
+      url: `/posts/edit/${PostId}`,
       headers: { authorization: encodedToken },
       data: { postData: postData },
     });
