@@ -19,7 +19,7 @@ export const editComments = async (
 
     if (res.status === 201) dispatch(editCommentCall(res.data.comments));
   } catch (e) {
-    toast.error("Failed to edti comment");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

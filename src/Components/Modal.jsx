@@ -19,13 +19,6 @@ function Modal({ setIsModal, isModal, user }) {
   const [editImg, setEditImg] = useState("");
   const [editFullName, setEditFullName] = useState(fullName);
 
-  // console.log(
-  //   { profileImg },
-  //   { profileBackgroundImg },
-  //   { editBackground },
-  //   { editImg }
-  // );
-
   const [editPortfolio, setEditPortfolio] = useState(portfolio);
   const [editBio, setEditBio] = useState(about);
 

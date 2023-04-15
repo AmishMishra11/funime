@@ -5,6 +5,7 @@ import { loadPostCall } from "../Redux/Features/postSlice";
 import { editPost } from "../Services/Post/editPostApi";
 
 import { toast } from "react-toastify";
+import { Loading } from "./Loading";
 
 function EditPost() {
   const { postID } = useParams();
@@ -72,7 +73,7 @@ function EditPost() {
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight dark:text-secondaryDark   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide  p-4">
       {singlePostStatus === "loading" ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <div className="border-2 border-primaryLight rounded-md">
           <div className="flex p-5 w-full gap-2  ">

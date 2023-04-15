@@ -40,7 +40,7 @@ export const loadAllUsersCall = createAsyncThunk(
 
       if (res.status === 200) return res.data.users;
     } catch (e) {
-      toast.error("Failed to load Users");
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return [];
     }
@@ -65,7 +65,7 @@ export const loadUserCall = createAsyncThunk(
 
       if (res.status === 200) return res.data.user;
     } catch (e) {
-      toast.error("Failed to load user");
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return rejectWithValue(user);
     }
@@ -79,8 +79,6 @@ export const editUserCall = createAsyncThunk(
       users: { currentUserDetails },
     } = getState();
 
-    const encodedToken = localStorage.getItem("token");
-
     try {
       const encodedToken = localStorage.getItem("token");
 
@@ -92,12 +90,16 @@ export const editUserCall = createAsyncThunk(
       });
 
       if (res.status === 201) {
+        // editUesrData.setLoading(false);
+
         dispatch(editProfileImageOfPost(res.data.posts));
         localStorage.setItem("userDetails", JSON.stringify(res.data.user));
         return res.data.user;
       }
     } catch (e) {
-      toast.error("Failed to update user data");
+      // editUesrData.setLoading(false);
+
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return rejectWithValue(currentUserDetails);
     }
@@ -124,7 +126,6 @@ export const followCall = createAsyncThunk(
       users: { currentUserDetails },
     } = getState();
 
-    const encodedToken = localStorage.getItem("token");
     const userDetailsString = localStorage.getItem("userDetails");
     const userDetails = JSON.parse(userDetailsString);
 
@@ -143,7 +144,7 @@ export const followCall = createAsyncThunk(
         return res.data.user;
       }
     } catch (e) {
-      toast.error("Failed to follow User");
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return rejectWithValue(currentUserDetails);
     }
@@ -157,7 +158,6 @@ export const unfollowCall = createAsyncThunk(
       users: { currentUserDetails },
     } = getState();
 
-    const encodedToken = localStorage.getItem("token");
     const userDetailsString = localStorage.getItem("userDetails");
     const userDetails = JSON.parse(userDetailsString);
 
@@ -176,7 +176,7 @@ export const unfollowCall = createAsyncThunk(
         return res.data.user;
       }
     } catch (e) {
-      toast.error("Failed to unfollow User");
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return rejectWithValue(currentUserDetails);
     }

@@ -23,7 +23,7 @@ export const removePost = async (PostId, userId, dispatch) => {
       dispatch(removePostFromUserFeed(userId));
     }
   } catch (e) {
-    toast.error("Failed to delete Post");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

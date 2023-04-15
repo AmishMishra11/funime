@@ -21,7 +21,7 @@ export const like = async (id) => {
       return { allPosts: allPosts, myPost: myPost };
     }
   } catch (e) {
-    toast.error("Failed to Like Post");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

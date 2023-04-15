@@ -13,7 +13,7 @@ export const follow = async (_id) => {
 
     if (res.status === 200) return res.data.user;
   } catch (e) {
-    toast.error("Failed to follow User");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
     return;
   }

@@ -8,6 +8,7 @@ import wallpaper from "../assets/wallpaper.png";
 import { loginUser } from "../Services/Auth/loginApi";
 
 import { toast } from "react-toastify";
+import { Loading } from "../Components/Loading";
 
 function Login() {
   const dispatch = useDispatch();
@@ -38,6 +39,13 @@ function Login() {
   }, [temp]);
 
   const { tempUserName, tempPassword } = tempUserDetail;
+
+  const [loading, setLoading] = useState(false);
+
+  const correctLogin = () => {
+    loginUser(tempUserName, tempPassword, dispatch, navigate, setLoading);
+    setLoading(true);
+  };
 
   return (
     <div className="flex lg:justify-between items-center w-screen h-screen bg-secondaryLight dark:bg-nightDark ">
@@ -85,16 +93,23 @@ function Login() {
               />
             </div>
           </div>
-          <div
-            className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer"
-            onClick={() =>
-              tempUserName && tempPassword
-                ? loginUser(tempUserName, tempPassword, dispatch, navigate)
-                : toast.error("Please fill all the fields")
-            }
-          >
-            Login
-          </div>
+
+          {loading ? (
+            <div className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer">
+              <Loading />
+            </div>
+          ) : (
+            <div
+              className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer"
+              onClick={() => {
+                tempUserName && tempPassword
+                  ? correctLogin()
+                  : toast.error("Please fill all the fields");
+              }}
+            >
+              Login
+            </div>
+          )}
 
           {/* <div
             className="mx-1 my-2 p-3 text-center text-primaryDark bg-secondaryDark dark:text-secondaryLight dark:bg-nightLight border-2 rounded-lg border-primaryDark cursor-pointer"

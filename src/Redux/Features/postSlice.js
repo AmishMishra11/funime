@@ -36,7 +36,7 @@ export const loadAllPostsCall = createAsyncThunk(
 
       if (res.status === 200) return res.data.posts;
     } catch (e) {
-      toast.error("Failed to load Posts");
+      toast.error(e.response.data.message);
       console.log("error occured: ", e);
       return [];
     }
@@ -183,7 +183,7 @@ export const postslice = createSlice({
         return result ? false : true;
       });
 
-      newPostValue.push(...tempAr);
+      newPostValue?.push(...tempAr);
 
       state.userFeedPost = newPostValue;
     },

@@ -4,13 +4,16 @@ import { loadUserPostCall } from "../Redux/Features/postSlice";
 import { AddPost } from "./AddPost";
 import { Modal } from "./Modal";
 import { Post } from "./Post";
+import { Loading } from "./Loading";
 
 function Profile() {
   const dispatch = useDispatch();
 
   const { userPosts, allPosts } = useSelector((store) => store.posts);
 
-  const { currentUserDetails } = useSelector((store) => store.users);
+  const { allUserStatus, currentUserDetails } = useSelector(
+    (store) => store.users
+  );
 
   const [isModal, setIsModal] = useState(false);
 
@@ -53,12 +56,18 @@ function Profile() {
             className=" h-24 w-24  md:h-28 md:w-28 rounded-full  absolute bottom-[-2.5rem] left-4 md:left-10 border-2 dark:border-nightInput border-secondaryLight"
           />
 
-          <div
-            className="p-2 rounded-md bg-primaryLight dark:text-secondaryDark absolute bottom-[-3rem] right-0 cursor-pointer"
-            onClick={() => setIsModal((preVal) => !preVal)}
-          >
-            Edit Profile
-          </div>
+          {allUserStatus === "loading" ? (
+            <div className="p-2 rounded-md w-[92.23px] h-10 flex items-center  bg-primaryLight dark:text-secondaryDark absolute bottom-[-3rem] right-0 cursor-pointer">
+              <Loading />
+            </div>
+          ) : (
+            <div
+              className="p-2 rounded-md bg-primaryLight dark:text-secondaryDark absolute bottom-[-3rem] right-0 cursor-pointer"
+              onClick={() => setIsModal((preVal) => !preVal)}
+            >
+              Edit Profile
+            </div>
+          )}
         </div>
         <div className="h-fit w-full py-4 mb-4 bg-secondaryLight dark:bg-nightDark dark:text-secondaryDark rounded-lg flex flex-col gap-2 border-b-2 border-primaryDark">
           <p className="px-2 text-2xl font-semibold">{fullName}</p>

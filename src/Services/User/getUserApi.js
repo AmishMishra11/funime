@@ -13,7 +13,7 @@ export const getUser = async (id) => {
 
     if (res.status === 200) return res.data.user;
   } catch (e) {
-    toast.error("Failed to load user");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

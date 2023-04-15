@@ -20,7 +20,7 @@ export const removeComments = async (PostId, commentId, dispatch) => {
       dispatch(removeCommentCall(res.data.comments));
     }
   } catch (e) {
-    toast.error("Failed to delete Comment");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

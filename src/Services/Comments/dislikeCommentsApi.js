@@ -19,7 +19,7 @@ export const dislikeComments = async (postID, id, dispatch) => {
 
     if (res.status === 201) dispatch(dislikeCommentCall(res.data.comments));
   } catch (e) {
-    toast.error("Try Again Later");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

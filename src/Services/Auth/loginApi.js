@@ -8,7 +8,8 @@ export const loginUser = async (
   tempUesrName,
   tempPassword,
   dispatch,
-  navigate
+  navigate,
+  setLoading
 ) => {
   try {
     const res = await secureAxiosInstance({
@@ -25,7 +26,8 @@ export const loginUser = async (
       navigate("/home");
     }
   } catch (e) {
+    setLoading(false);
     console.log("error occured: ", e);
-    toast.error("Login Failed");
+    toast.error(e.response.data.message);
   }
 };

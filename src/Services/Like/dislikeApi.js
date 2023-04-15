@@ -20,7 +20,7 @@ export const dislike = async (id) => {
       return { allPosts: allPosts, myPost: myPost };
     }
   } catch (e) {
-    toast.error("Failed to dislike Post");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

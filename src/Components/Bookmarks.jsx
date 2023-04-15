@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getBookmarkCall } from "../Redux/Features/userSlice";
 
+import { Loading } from "./Loading";
 import { Post } from "./Post";
 
 import noResult from "../assets/what_should_we_do.gif";
@@ -11,6 +12,8 @@ function Bookmarks() {
   const { bookmarks, bookmarkStatus, currentUserDetails } = useSelector(
     (store) => store.users
   );
+
+  console.log(bookmarkStatus);
 
   const { _id } = currentUserDetails;
   useEffect(() => {
@@ -27,13 +30,13 @@ function Bookmarks() {
         </div>
         <div className="w-full">
           {bookmarkStatus === "loading" ? (
-            <div>Loading</div>
+            <Loading />
           ) : (
             bookmarks?.map((item) => <Post key={item._id} item={item} />)
           )}
         </div>
 
-        {!bookmarks?.length && (
+        {!bookmarks?.length && bookmarkStatus !== "loading" && (
           <div>
             <div className="text-lg pb-2 dark:text-secondaryDark">
               No Bookmarks Found!

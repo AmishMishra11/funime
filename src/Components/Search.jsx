@@ -17,6 +17,7 @@ import {
 } from "../Redux/Features/userSlice";
 
 import { Post } from "./Post";
+import { Loading } from "./Loading";
 
 function Search() {
   const dispatch = useDispatch();
@@ -99,7 +100,7 @@ function Search() {
 
             <div className="w-11/12 md:w-4/5">
               {allUserStatus === "loading" ? (
-                <p>Loading</p>
+                <Loading />
               ) : (
                 <div>
                   {showUsers?.map(({ profileImg, username, fullName, _id }) => (
@@ -161,7 +162,7 @@ function Search() {
               Posts
             </div>
             {allUserStatus === "loading" ? (
-              <div>Loading</div>
+              <Loading />
             ) : (
               showPosts?.map((item) => <Post key={item._id} item={item} />)
             )}
