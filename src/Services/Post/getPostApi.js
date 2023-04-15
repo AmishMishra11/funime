@@ -13,7 +13,7 @@ export const getPosts = async (id) => {
 
     if (res.status === 200) return res.data.post;
   } catch (e) {
-    toast.error("Failed to load post");
+    toast.error(e.response.data.message);
     console.log("error occured:", e);
   }
 };

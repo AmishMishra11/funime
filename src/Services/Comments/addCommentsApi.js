@@ -21,7 +21,7 @@ export const addComments = async (commentData, id, dispatch) => {
       dispatch(addCommentCall(res.data.comments));
     }
   } catch (e) {
-    toast.error("Failed to add comments");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

@@ -8,6 +8,7 @@ import { editComments } from "../Services/Comments/editCommentsApi";
 import { getComments } from "../Services/Comments/getCommentsApi";
 import { Post } from "./Post";
 import { CommentSection } from "./CommentSection";
+import { Loading } from "./Loading";
 
 function PostPage() {
   const navigate = useNavigate();
@@ -111,7 +112,7 @@ function PostPage() {
         {singlePost ? (
           <Post key={singlePost._id} item={singlePost} />
         ) : (
-          <div>Loading...</div>
+          <Loading />
         )}
 
         {/* show comments */}

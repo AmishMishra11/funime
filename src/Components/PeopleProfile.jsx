@@ -12,6 +12,7 @@ import {
   unfollowCall,
 } from "../Redux/Features/userSlice";
 import { Post } from "./Post";
+import { Loading } from "./Loading";
 
 function PeopleProfile() {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ function PeopleProfile() {
   return (
     <div className=" w-full md:w-10/12    md:mx-10 md:my-6  xlg:mx-14 xlg:my-10 rounded-lg bg-secondaryDark dark:bg-nightLight   overflow-y-auto h-[calc(100vh-6rem)] md:h-[calc(100vh-8rem)] scrollbar-hide ">
       {userStatus === "failed" ? (
-        <div>Loading ...</div>
+        <Loading />
       ) : (
         <div className="flex flex-col p-4">
           <div className="relative mb-16 ">

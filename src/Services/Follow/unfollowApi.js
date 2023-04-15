@@ -11,7 +11,7 @@ export const unfollow = async (id) => {
 
     if (res.status === 200) return res.data.user;
   } catch (e) {
-    toast.error("Failed to unfillow user");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

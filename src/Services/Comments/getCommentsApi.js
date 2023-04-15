@@ -13,7 +13,7 @@ export const getComments = async (id, dispatch) => {
     if (res.status === 200) dispatch(getCommentCall(res.data.comments));
   } catch (e) {
     dispatch(getCommentCall([]));
-    toast.error("Failed to load Comments");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

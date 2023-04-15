@@ -13,7 +13,7 @@ export const getAllUsers = async () => {
 
     if (res.status === 200) return res.data.users;
   } catch (e) {
-    toast.error("Failed to get Users");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

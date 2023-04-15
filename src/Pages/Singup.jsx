@@ -8,6 +8,7 @@ import wallpaper from "../assets/wallpaper.png";
 import { signinUser } from "../Services/Auth/signupApi";
 
 import { toast } from "react-toastify";
+import { Loading } from "../Components/Loading";
 
 function Singup() {
   const dispatch = useDispatch();
@@ -34,6 +35,21 @@ function Singup() {
 
   const { tempFullName, tempUserName, tempEmail, tempPassword } =
     tempUserDetail;
+
+  const [loading, setLoading] = useState(false);
+
+  const correctSignup = () => {
+    signinUser(
+      tempFullName,
+      tempUserName,
+      tempEmail,
+      tempPassword,
+      dispatch,
+      navigate,
+      setLoading
+    );
+    setLoading(true);
+  };
 
   return (
     <div className="flex lg:justify-between items-center w-screen h-screen  bg-secondaryLight dark:bg-nightDark ">
@@ -107,27 +123,27 @@ function Singup() {
               />
             </div>
           </div>
-          <div
-            className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer"
-            onClick={() =>
-              tempFullName && tempUserName && tempEmail && tempPassword
-                ? !EMAIL_REGEX.test(tempEmail)
-                  ? toast.error("Please enter valid Email")
-                  : tempPassword.length < 6
-                  ? toast.error("Please choose a strong Passwrod")
-                  : signinUser(
-                      tempFullName,
-                      tempUserName,
-                      tempEmail,
-                      tempPassword,
-                      dispatch,
-                      navigate
-                    )
-                : toast.error("Please fill all the fields")
-            }
-          >
-            Sign Up
-          </div>
+
+          {loading ? (
+            <div className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer">
+              <Loading />
+            </div>
+          ) : (
+            <div
+              className="mx-1 my-2 p-3 text-center bg-primaryDark text-secondaryDark rounded-lg cursor-pointer"
+              onClick={() =>
+                tempFullName && tempUserName && tempEmail && tempPassword
+                  ? !EMAIL_REGEX.test(tempEmail)
+                    ? toast.error("Please enter valid Email")
+                    : tempPassword.length < 6
+                    ? toast.error("Please choose a strong Passwrod")
+                    : correctSignup()
+                  : toast.error("Please fill all the fields")
+              }
+            >
+              Sign Up
+            </div>
+          )}
 
           <div className="p-1 text-center ">
             <Link

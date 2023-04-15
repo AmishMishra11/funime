@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loadAllPostsCall } from "../Redux/Features/postSlice";
 
 import { Post } from "./Post";
+import { Loading } from "./Loading";
 
 function Explore() {
   const dispatch = useDispatch();
@@ -84,7 +85,7 @@ function Explore() {
 
         <div className="w-full">
           {allPostsStatus === "loading" ? (
-            <div>Loading</div>
+            <Loading />
           ) : (
             showExplore?.map((item) => <Post key={item._id} item={item} />)
           )}

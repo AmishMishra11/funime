@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { addPost } from "../Services/Post/addPostApi";
 import { toast } from "react-toastify";
+import { Loading } from "./Loading";
 
 function AddPost() {
   const dispatch = useDispatch();
@@ -35,12 +36,16 @@ function AddPost() {
         userImage: currentUserDetails.profileImg,
         userId: currentUserDetails._id,
       },
-      dispatch
+      dispatch,
+      setLoading
     );
 
     setPostContent("");
     setPostImage("");
+    setLoading(true);
   };
+
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="border-b-2 border-primaryDark dark:bg-nightLight ">
@@ -91,16 +96,22 @@ function AddPost() {
               ></i>
             </div>
 
-            <button
-              className="bg-primaryDark text-secondaryDark dark:border-nightLight w-24 p-2 border-2 rounded-md"
-              onClick={() =>
-                postContent || postImage
-                  ? newPostHandler()
-                  : toast.error("You have to fill alteast one field")
-              }
-            >
-              Post
-            </button>
+            {loading ? (
+              <button className="bg-primaryDark text-secondaryDark dark:border-nightLight w-24 p-2 border-2 rounded-md">
+                <Loading />
+              </button>
+            ) : (
+              <button
+                className="bg-primaryDark text-secondaryDark dark:border-nightLight w-24 p-2 border-2 rounded-md"
+                onClick={() =>
+                  postContent || postImage
+                    ? newPostHandler()
+                    : toast.error("You have to fill alteast one field")
+                }
+              >
+                Post
+              </button>
+            )}
           </div>
         </div>
       </div>

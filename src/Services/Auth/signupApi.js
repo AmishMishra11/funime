@@ -10,7 +10,8 @@ export const signinUser = async (
   tempEmail,
   tempPassword,
   dispatch,
-  navigate
+  navigate,
+  setLoading
 ) => {
   try {
     const res = await secureAxiosInstance({
@@ -32,8 +33,8 @@ export const signinUser = async (
       navigate("/home");
     }
   } catch (e) {
+    setLoading(false);
     console.log("error occured: ", e);
-
-    toast.error("Signup Failed");
+    toast.error(e.response.data.message);
   }
 };

@@ -15,7 +15,7 @@ export const editPost = async (postData, PostId, dispatch) => {
 
     if (res.status === 201) dispatch(editPostCall(res.data.posts));
   } catch (e) {
-    toast.error("Failed to edit Post");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

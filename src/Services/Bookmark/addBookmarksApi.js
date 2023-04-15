@@ -16,7 +16,7 @@ export const addBookmarks = async (id) => {
 
     if (res.status === 201) return res.data.bookmarks;
   } catch (e) {
-    toast.error("Failed to add Bookmark");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };

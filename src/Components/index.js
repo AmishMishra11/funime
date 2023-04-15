@@ -2,6 +2,7 @@ export { Bookmarks } from "./Bookmarks";
 export { EditPost } from "./EditPost";
 export { Explore } from "./Explore";
 export { Feed } from "./Feed";
+export { Loading } from "./Loading";
 export { Navigation } from "./Navigation";
 export { PeopleProfile } from "./PeopleProfile";
 export { PostPage } from "./PostPage";

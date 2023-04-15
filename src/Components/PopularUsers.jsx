@@ -8,6 +8,7 @@ import {
   unfollowCall,
 } from "../Redux/Features/userSlice";
 import { removePostFromUserFeed } from "../Redux/Features/postSlice";
+import { Loading } from "./Loading";
 
 function PopularUsers() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function PopularUsers() {
   };
 
   return allUserStatus === "loading" ? (
-    <p>Loading</p>
+    <Loading />
   ) : (
     <>
       {PopularUsers?.map(({ profileImg, username, fullName, _id }) => (

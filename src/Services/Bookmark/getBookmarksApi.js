@@ -12,7 +12,7 @@ export const getBookmarks = async (id) => {
 
     if (res.status === 200) return res.data.bookmarks;
   } catch (e) {
-    toast.error("Failed to load Bookmarks");
+    toast.error(e.response.data.message);
     console.log("error occured: ", e);
   }
 };
