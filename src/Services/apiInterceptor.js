@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const secureAxiosInstance = axios.create({
-  baseURL: "https://funime-backend.cyclic.app",
+  // baseURL: "https://funime-backend.cyclic.app", //deprecated
+  baseURL: "https://funime-backend.on.shiper.app",
   // baseURL: "http://localhost:9000",
 });
 
